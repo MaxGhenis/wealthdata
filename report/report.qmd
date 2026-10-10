@@ -1,0 +1,403 @@
+---
+title: "Aging SCF wealth between survey waves"
+subtitle: "Twelve three-year projections, 1989 to 2025, scored against the next survey"
+date: 2026-10-10
+format:
+  html:
+    embed-resources: true
+    toc: true
+    toc-depth: 2
+    fig-dpi: 200
+    df-print: kable
+  gfm:
+    fig-dpi: 200
+execute:
+  echo: false
+  warning: false
+jupyter: python3
+---
+
+```{python}
+from IPython.display import Markdown
+
+from wealthdata import backtest, report
+
+R = report.load()
+BASE, TARGET = report.last_pair(R["scores"])
+PAIRS = len(backtest.pairs(TARGET))
+ABC = ("a_no_change", "b_uniform", "c_asset_class")
+ALL = tuple(report.CONTENDERS)
+DEV = tuple(target for _, target in backtest.pairs(2022))
+PUBLISHED = {2022: (211.1, 1164.1), 2025: (215.9, 1241.5)}
+NAMES = {**report.CONTENDERS, report.REAL_TIME: "(d) DFA groups, real-time vintage"}
+
+
+def name(methods):
+    return " and ".join(NAMES[method] for method in methods.split(" and "))
+
+
+def score(method, kind, targets=()):
+    return f"{report.mean_score(R, method, kind, targets):.1f}"
+
+
+def table(frame, index=True):
+    return Markdown(frame.to_markdown(index=index, disable_numparse=True))
+
+
+def beats(method, kind):
+    """Whether ``method`` has a lower score than (c) on the last pair."""
+    return report.mean_score(R, method, kind, (TARGET,)) < report.mean_score(
+        R, "c_asset_class", kind, (TARGET,)
+    )
+
+
+DEV_LEADER = report.winner(R, "level", ABC, DEV)
+CONTRADICTED = [
+    f"{NAMES[method]} on the {label.lower()} score"
+    for method in ("a_no_change", "b_uniform")
+    for kind, label in (("level", "Level"), ("level_blind", "Blind level"))
+    if beats(method, kind)
+]
+RANKING_HELD = (
+    "held: (c) beat both (a) and (b) on the level and blind level scores"
+    if not CONTRADICTED
+    else "was contradicted: " + "; ".join(CONTRADICTED) + " beat (c)"
+)
+
+# Numbers for the summary. Each qualitative claim in the summary is asserted
+# here, so the report fails to render if the results stop supporting it.
+AGING = ("b_uniform", "c_asset_class", "d_dfa_groups")
+
+
+def err(method, stat):
+    return report.value(R, TARGET, method, stat)
+
+
+def z(method, stat):
+    return report.value(R, TARGET, method, stat, "z")
+
+
+def pct(value, digits=1):
+    return f"{value:+.{digits}f}%"
+
+
+def factor(method, item):
+    rows = R["factors"]
+    row = rows[(rows["target"] == TARGET) & (rows["method"] == method) & (rows["item"] == item)]
+    return float(row["factor"].item())
+
+
+def actual(year, stat):
+    rows = R["wave_stats"]
+    return float(rows[(rows["wave"] == year) & (rows["stat"] == stat)]["value"].item())
+
+
+LEVEL_WIN = report.winner(R, "level", ALL, (TARGET,))
+BLIND_WIN = report.winner(R, "level_blind", ALL, (TARGET,))
+MEAN_ERRS = sorted(err(m, "mean") for m in AGING)
+assert all(err(m, "mean") > 0 and abs(z(m, "mean")) >= 1.96 for m in AGING)
+assert abs(z("a_no_change", "mean")) < 1.96
+FA_GROWTH = 100 * (factor("b_uniform", "all") - 1)
+SCF_GROWTH = 100 * (factor("o_uniform_oracle", "all") - 1)
+FA_EQUITY = 100 * (factor("c_asset_class", "equities") - 1)
+SCF_EQUITY = 100 * (actual(TARGET, "mean_equities") / actual(BASE, "mean_equities") - 1)
+# Method (c)'s projected mean is the sum over classes of factor times the base
+# wave's class mean; the actual is the sum of the target wave's class means.
+CONTRIBUTION = {
+    item: (1 if item != "debt" else -1)
+    * (
+        factor("c_asset_class", item) * actual(BASE, f"mean_{item}")
+        - actual(TARGET, f"mean_{item}")
+    )
+    for item in ("equities", "deposits", "other_financial", "housing", "business", "other_nonfinancial", "debt")
+}
+OVERSHOOT = sum(CONTRIBUTION.values())
+assert CONTRIBUTION["equities"] > 0.5 * OVERSHOOT > 0
+REST = OVERSHOOT - CONTRIBUTION["equities"]
+OTHERS = f"{'-' if REST < 0 else '+'}${abs(REST) / 1e3:.1f}k"
+TOP1 = (100 * actual(BASE, "top1_share"), 100 * actual(TARGET, "top1_share"))
+TOP1_ERRS = sorted(err(m, "top1_share") for m in ALL)
+assert all(abs(z(m, "top1_share")) >= 1.96 and err(m, "top1_share") > 0 for m in ALL)
+assert max(ALL, key=lambda m: err(m, "top1_share")) == "d_dfa_groups"
+DFA_ASSETS = {g: factor("d_dfa_groups", f"{g} assets") for g in ("Bottom50", "Next40", "Next9", "RemainingTop1", "TopPt1")}
+assert max(DFA_ASSETS, key=DFA_ASSETS.get) == "TopPt1"
+SUBGROUP_NO_CHANGE_BEST = report.mean_score(R, "a_no_change", "subgroup", (TARGET,)) < min(
+    report.mean_score(R, m, "subgroup", (TARGET,)) for m in AGING
+)
+assert SUBGROUP_NO_CHANGE_BEST
+YOUNG = sorted(err(m, "median_age_1") for m in ALL)
+assert YOUNG[0] > 0
+TWELVE = {m: report.mean_score(R, m, "level") for m in ABC}
+assert min(TWELVE, key=TWELVE.get) == "c_asset_class"
+LEVEL = R["summary"][R["summary"]["score"] == "level"].pivot(
+    index="target", columns="method", values="mean_abs_error"
+)
+BEATS = {m: int((LEVEL[m] < LEVEL["a_no_change"]).sum()) for m in ("b_uniform", "c_asset_class")}
+ORACLE = report.mean_score(R, "o_asset_class_oracle", "level")
+```
+
+Models that need current household wealth take the latest Survey of Consumer
+Finances (SCF) and grow it with aggregates from the Federal Reserve's Financial
+Accounts. This report projects every SCF wave from 1989 to `{python} BASE`
+three years forward with four methods and scores each projection against the
+wave that followed. The last pair, `{python} BASE`→`{python} TARGET`, ends in
+the survey the Fed published on 9 October 2026.
+
+The design was written down and tagged (`prereg-v1`) before the 2025 microdata
+were opened: methods, statistics, scores and the rules for calling a winner.
+The eleven pairs through 2019→2022 were in view while the methods were built,
+and one method was changed after looking at them, as the specification
+records. The Fed's report had already given the 2025 mean and median, so a
+*blind level* score, over the 25th, 75th, 90th and 99th percentiles, carries
+the cleanest test.
+
+## Summary
+
+- **The 2022→2025 test.** The lowest level score, over the mean and five
+  percentiles, belongs to `{python} name(LEVEL_WIN)`
+  (`{python} score(LEVEL_WIN, "level", (TARGET,))`%, against
+  `{python} score("a_no_change", "level", (TARGET,))`% for no change). The
+  lowest blind level score, which leaves out the already-published mean and
+  median, belongs to `{python} name(BLIND_WIN)`
+  (`{python} score(BLIND_WIN, "level_blind", (TARGET,))`% against
+  `{python} score("a_no_change", "level_blind", (TARGET,))`%). The ranking
+  from the development pairs `{python} RANKING_HELD`.
+- **Every aging method overshot the 2025 mean**, by
+  `{python} pct(MEAN_ERRS[0])` to `{python} pct(MEAN_ERRS[-1])`, outside
+  sampling noise; holding dollars fixed missed it by
+  `{python} pct(err("a_no_change", "mean"))`, within noise. Financial Accounts
+  household net worth grew `{python} f"{FA_GROWTH:.1f}"`% in real terms per
+  household; the SCF mean grew `{python} f"{SCF_GROWTH:.1f}"`%. For
+  asset-class scaling the overshoot is equities: its projected mean was
+  `{python} report.dollars(OVERSHOOT)` per family too high, equities
+  contributed `{python} report.dollars(CONTRIBUTION["equities"])`, and the
+  other six classes together `{python} OTHERS`. The
+  Financial Accounts equity series grew `{python} f"{FA_EQUITY:.0f}"`% in real
+  terms per household; mean SCF equity holdings grew
+  `{python} f"{SCF_EQUITY:.0f}"`%.
+- **No method caught the fall in the top 1% share**, from
+  `{python} f"{TOP1[0]:.1f}"`% to `{python} f"{TOP1[1]:.1f}"`%. All four
+  overshot it by `{python} f"{TOP1_ERRS[0]:.1f}"` to
+  `{python} f"{TOP1_ERRS[-1]:.1f}"` points, outside noise; DFA scaling, which
+  grew the top groups fastest, missed by the most.
+- **On subgroup medians doing nothing did best in 2025.** Every method,
+  including no change, overshot the under-35 median by
+  `{python} pct(YOUNG[0], 0)` to `{python} pct(YOUNG[-1], 0)`. A projection
+  moves dollars, not people, so it cannot follow a change in who holds what
+  within an age group.
+- **Over all twelve pairs**, asset-class scaling has the lowest mean level
+  score of the three methods that use no SCF information from the target
+  (`{python} f"{TWELVE['c_asset_class']:.1f}"`%, against
+  `{python} f"{TWELVE['b_uniform']:.1f}"`% for uniform scaling and
+  `{python} f"{TWELVE['a_no_change']:.1f}"`% for no change). Pair by pair it
+  is less dependable: uniform scaling beats no change on
+  `{python} BEATS["b_uniform"]` of `{python} PAIRS` pairs and asset-class
+  scaling on `{python} BEATS["c_asset_class"]`.
+- **The ceiling is low.** Scaling each class by the SCF's own growth, which
+  no forecaster has, still leaves a mean level error of
+  `{python} f"{ORACLE:.1f}"`% across the twelve pairs. That remainder is change
+  in the shape of the distribution that scaling by aggregates, even the right
+  ones, does not capture.
+
+## The 2022→2025 test
+
+```{python}
+#| label: fig-headline
+#| fig-cap: "Each method's error at seven points of the net worth distribution. Markers show projected minus actual as a percent of the actual value (for the 10th percentile, which is near zero, as a percent of the actual median). Whiskers span 1.96 standard errors of that error either side, so a whisker that crosses zero is within sampling noise. Dollar figures under each label are the actual values."
+#| fig-alt: "Dot plot of projection errors by method at the 10th, 25th, 50th, 75th, 90th and 99th percentiles and the mean of net worth."
+figure = report.headline_figure(R, BASE, TARGET)
+```
+
+```{python}
+table(report.pair_scores(R, TARGET, report.CONTENDERS))
+```
+
+Each score is a mean absolute error: *level* over the mean and the 25th, 50th,
+75th, 90th and 99th percentiles; *blind level* over the four of those
+percentiles whose 2025 values were unpublished; *distribution* over the top
+10% and top 1% shares and the Gini coefficient, in percentage points;
+*subgroup* over the medians for six age groups and four race and ethnicity
+groups.
+
+The lowest score on this pair:
+
+- level: `{python} name(report.winner(R, "level", ALL, (TARGET,)))`;
+- blind level: `{python} name(report.winner(R, "level_blind", ALL, (TARGET,)))`;
+- distribution: `{python} name(report.winner(R, "distribution", ALL, (TARGET,)))`;
+- subgroup medians: `{python} name(report.winner(R, "subgroup", ALL, (TARGET,)))`.
+
+On the development pairs the lowest mean level score among (a), (b) and (c)
+belonged to `{python} name(DEV_LEADER)`. On `{python} BASE`→`{python} TARGET`
+that ranking `{python} RANKING_HELD`.
+
+```{python}
+table(report.detail_table(R, BASE, TARGET, ("mean", "p10", "p25", "p50", "p75", "p90", "p99", *backtest.DISTRIBUTION_STATS)))
+```
+
+Errors are projected minus actual: percent of the actual value for dollar
+statistics (percent of the actual median for the 10th percentile), percentage
+points for shares and the Gini coefficient. An asterisk marks an error larger
+than 1.96 standard errors of the difference between projection and survey.
+
+```{python}
+table(report.detail_table(R, BASE, TARGET, tuple(backtest.SUBGROUP_STATS)))
+```
+
+Mean holdings per family by class, both waves in 2025 dollars, against the
+Financial Accounts growth that asset-class scaling applied. This comparison
+was added after the 2025 results were seen.
+
+```{python}
+table(report.class_growth_table(R, TARGET))
+```
+
+## Twelve pairs
+
+The record for the three methods that use no SCF information from the target
+wave. The Distributional Financial Accounts are built from the SCF,
+interpolating between surveys and forecasting beyond the latest one, so for
+every pair through 2019→2022 the current DFA already contains the wave being
+predicted. Method (d) is judged in the next section instead.
+
+```{python}
+table(report.score_table(R, {name: report.CONTENDERS[name] for name in ABC}))
+```
+
+Scores are means over the `{python} PAIRS` pairs; "pairs won" counts the pairs
+on which a method has the lowest score of the three.
+
+Level score by wave pair, with (d) for reference (in-sample through 2019→2022):
+
+```{python}
+table(report.pair_score_table(R, "level", report.CONTENDERS))
+```
+
+```{python}
+#| label: fig-median
+#| fig-cap: "Error in the projected median for each wave pair, percent of the actual median. Method (d) is in-sample through 2019→2022."
+#| fig-alt: "Line chart of the percent error in projected median net worth by wave pair for the four methods."
+figure = report.median_history_figure(R)
+```
+
+## The DFA as it stood at the time
+
+Three target waves have a DFA vintage published before the SCF it is scored
+against: 30 June 2020 (ALFRED) for 2019, 22 September 2023 (Internet Archive)
+for 2022, and 18 September 2026 for 2025. On those pairs (d) is a forecast
+like the others.
+
+```{python}
+table(report.real_time_table(R), index=False)
+```
+
+## Aging against doing nothing
+
+Pairs on which each aging method's level score is below that of holding real
+dollars fixed.
+
+```{python}
+table(report.beats_no_change(R))
+```
+
+## Where every method fails
+
+For each statistic and method: mean signed error, mean absolute error, and the
+number of wave pairs where the error is outside sampling noise.
+
+```{python}
+table(report.failure_table(R, report.ALL_STATS))
+```
+
+Errors outside noise, over all twenty statistics. With no true error, about
+one cell in twenty would be outside noise by chance.
+
+```{python}
+table(report.noise_rates(R))
+```
+
+Wave pairs and statistics on which all four methods are outside noise:
+
+```{python}
+failing = report.all_fail(R, report.ALL_STATS)
+table(failing.groupby("Wave pair")["Statistic"].agg(", ".join).to_frame())
+```
+
+## Variants and oracles
+
+```{python}
+table(report.variant_table(R).reset_index(drop=True), index=False)
+```
+
+The two oracles use the target wave and are not forecasts. They scale by the
+SCF's own aggregate growth, so their remaining error is change in the shape of
+the distribution within the survey, which no aggregate series could supply.
+
+## Growth factors
+
+Real growth per household applied to each wave pair.
+
+```{python}
+table(report.factor_table(R))
+```
+
+## The actual waves
+
+Net worth in 2025 dollars, public summary extract, mean over the five
+implicates.
+
+```{python}
+table(report.wave_table(R))
+```
+
+Against the Fed's report on the 2025 survey (Table 2, 2025 dollars):
+
+```{python}
+table(report.published_check(R, PUBLISHED).reset_index(), index=False)
+```
+
+The public file differs from the internal one the report is built from. Per
+the SCF codebooks it leaves out respondents wealthy enough for the Forbes list
+(7 of 4,602 in 2022 and 7 of 4,367 in 2025) and rounds and blurs dollar
+values. Dropping the wealthiest respondents lowers the mean more than the
+median, which fits the gaps above.
+
+## Method
+
+The full specification is in `PREREGISTRATION.md`; the source for each claim
+about the underlying data is in `docs/sources.md`.
+
+- **Data.** SCF Summary Extract Public Data, thirteen waves, all in 2025
+  dollars as reissued by the Fed on 9 October 2026. Family-level, weighted,
+  five implicates.
+- **Factor.** Nominal growth of a Financial Accounts aggregate between the
+  third quarters of the two survey years, divided by growth in the number of
+  households (Census, CPS ASEC) and by growth in the September CPI-U-RS the
+  Fed uses to deflate the SCF.
+- **(a) No change.** Real amounts held fixed.
+- **(b) Uniform.** One factor from household net worth (`BOGZ1FL192090005Q`).
+- **(c) Asset class.** Seven classes that sum to net worth, each with the
+  factor for its Financial Accounts series.
+- **(d) DFA groups.** Households placed in the DFA's five wealth groups;
+  assets scaled by the group's DFA assets, debt by its DFA liabilities.
+- **Scoring.** Statistics computed on each implicate and averaged. Standard
+  errors from the 999 replicate weights plus 6/5 of the between-implicate
+  variance, as the SCF codebook prescribes.
+- **Unchanged by construction.** Weights, households and demographics. A
+  projection moves dollars only: nobody ages, forms a household, buys a first
+  home or retires.
+
+**Limits.** The SCF and Financial Accounts classes do not match exactly; the
+specification lists each mismatch. The Financial Accounts levels are today's
+vintage, so historical pairs use revised data. Whether any Financial Accounts
+household series is itself benchmarked to the SCF was not checked; if one is,
+(b) and (c) are partly in-sample on the historical pairs. Within-noise is a
+failure to reject, not evidence of accuracy.
+
+## Reproduce
+
+```bash
+uv sync
+uv run pytest
+uv run python -m wealthdata.backtest
+./scripts/render_report.sh
+```
