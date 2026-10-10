@@ -21,6 +21,9 @@ RESULTS_DIR = Path(__file__).resolve().parents[2] / "results"
 
 #: Statistics whose errors are percentages of the actual value.
 LEVEL_STATS: tuple[str, ...] = ("mean", "p25", "p50", "p75", "p90", "p99")
+#: The level statistics whose 2025 values were not published before the
+#: freeze: the Fed's report gave the 2025 mean and median.
+BLIND_LEVEL_STATS: tuple[str, ...] = ("p25", "p75", "p90", "p99")
 #: Statistics on a 0-1 scale whose errors are percentage points.
 DISTRIBUTION_STATS: tuple[str, ...] = ("top10_share", "top1_share", "gini")
 SUBGROUP_STATS: tuple[str, ...] = (
@@ -214,9 +217,10 @@ def score_rows(projected: dict[str, float], actual: dict[str, float]) -> list[di
     percentage of the actual value, defined for dollar statistics with a
     positive actual. ``scaled_error`` is the single number each statistic
     contributes to the summary scores: the percentage error for dollar
-    statistics (for ``p10``, the error as a percentage of the actual median,
-    because the tenth percentile sits near zero) and percentage points for
-    shares and the Gini coefficient.
+    statistics and percentage points for shares and the Gini coefficient.
+    A dollar statistic whose actual value is near zero or negative (``p10``
+    always; any other only if its actual value is not positive) is instead
+    scored as a percentage of the actual overall median.
     """
     rows = []
     for name, value in projected.items():
@@ -224,7 +228,7 @@ def score_rows(projected: dict[str, float], actual: dict[str, float]) -> list[di
         error = value - truth
         if name in DISTRIBUTION_STATS:
             pct, scaled = np.nan, 100.0 * error
-        elif name == "p10":
+        elif name == "p10" or truth <= 0:
             pct = 100.0 * error / truth if truth > 0 else np.nan
             scaled = 100.0 * error / actual["p50"]
         else:
@@ -281,15 +285,17 @@ def run(
 
 
 def summarize(scores: pd.DataFrame) -> pd.DataFrame:
-    """Three summary scores per wave pair and method.
+    """Four summary scores per wave pair and method.
 
     Each is a mean absolute error: ``level`` over the mean and five quantiles
-    (percent), ``distribution`` over the two top shares and the Gini
-    coefficient (percentage points), ``subgroup`` over the ten group medians
-    (percent).
+    (percent), ``level_blind`` over the four of those quantiles whose 2025
+    values were unpublished at the freeze (percent), ``distribution`` over
+    the two top shares and the Gini coefficient (percentage points), and
+    ``subgroup`` over the ten group medians (percent).
     """
     families = {
         "level": LEVEL_STATS,
+        "level_blind": BLIND_LEVEL_STATS,
         "distribution": DISTRIBUTION_STATS,
         "subgroup": SUBGROUP_STATS,
     }

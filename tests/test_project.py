@@ -90,9 +90,8 @@ def test_class_scaling_reproduces_each_class_aggregate_growth(sheet, class_facto
 def test_projections_are_deterministic_and_ignore_row_order(sheet, method, random):
     first = method(sheet)
     pd.testing.assert_frame_equal(first, method(sheet), check_exact=True)
-    # Shuffle households within each implicate; ties in net worth are broken
-    # by input order, so only compare when net worth is unique per implicate.
-    assume(not sheet.duplicated(["implicate", "networth"]).any())
+    # Ties in net worth are broken by household id, so any shuffle of the
+    # rows gives the same projection, ties included.
     order = list(sheet.index)
     random.shuffle(order)
     shuffled = method(sheet.loc[order])
@@ -234,3 +233,30 @@ def test_invalid_factors_are_rejected():
         project.scale_wealth_groups(
             sheet, dict.fromkeys(project.DFA_GROUPS_4, {"debt": 1.0}), project.DFA_GROUPS_4
         )
+
+
+def test_tied_households_at_a_group_boundary_do_not_depend_on_row_order():
+    """Two households with zero net worth straddle the median; A has assets
+    and debt of 10, B has neither. The lower id goes to the bottom group."""
+    sheet = pd.DataFrame(
+        {
+            "case": [1, 2],
+            "implicate": np.array([1, 1], dtype="int8"),
+            "wgt": [1.0, 1.0],
+            "agecl": np.array([1, 1], dtype="int8"),
+            "racecl4": np.array([1, 1], dtype="int8"),
+            **{name: [0.0, 0.0] for name in project.CLASSES},
+        }
+    )
+    sheet.loc[0, "deposits"] = 10.0
+    sheet.loc[0, "debt"] = 10.0
+    sheet["networth"] = project.net_worth(sheet)
+    bounds = {"Bottom50": 0.5, "Top50": 1.0}
+    factors = {
+        "Bottom50": dict.fromkeys(project.CLASSES, 1.0),
+        "Top50": project.assets_and_debt(2.0, 1.0),
+    }
+    forward = project.scale_wealth_groups(sheet, factors, bounds)
+    backward = project.scale_wealth_groups(sheet.iloc[::-1], factors, bounds)
+    pd.testing.assert_frame_equal(backward.loc[forward.index], forward, check_exact=True)
+    assert forward.loc[0, "networth"] == 0.0  # case 1 is in the bottom group

@@ -131,6 +131,5 @@ dmypy.json
 # wealthdata
 .venv/
 .cache/
-report/*_files/
 report/.quarto/
 .review/

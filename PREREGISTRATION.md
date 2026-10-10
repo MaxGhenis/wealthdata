@@ -11,7 +11,9 @@ bring it to the current year with aggregate growth from the Federal Reserve's
 Financial Accounts (Z.1). How close does that get to what the next survey
 finds? Each SCF wave from 1989 to 2022 is projected three years forward and
 scored against the wave that followed. The 2025 wave, published 9 October
-2026, is the one target not used while building the methods.
+2026, is the one target whose microdata were not used while building the
+methods. Its all-family mean and median were already public (see
+[What was known](#what-was-known-when-this-was-frozen)).
 
 ## Data
 
@@ -83,16 +85,44 @@ series:
 | Debt | `debt` | `FL154190005` total liabilities |
 
 The Financial Accounts series cover households and nonprofit organizations,
-except owner-occupied real estate, which is households only. Known mismatches,
-accepted as part of the method: SCF business equity includes closely held
-corporations, which the Financial Accounts count as corporate equities; since
-2007 `equity` includes savings accounts invested in stocks, which `liq` also
-counts, so "other financial" is negative for a few households.
+except owner-occupied real estate, which is households only.
+
+Known mismatches, accepted as part of the method and not changed after
+review:
+
+- *Business.* SCF business equity covers privately held businesses of every
+  legal form, including S and other corporations (2022 codebook, `X3119`); the
+  series covers noncorporate business only.
+- *Equities.* The series counts equities held indirectly through life insurers
+  and state and local government employee pension funds (table S1M.e.b),
+  which the SCF does not count as household equity.
+- *Housing.* `oresre` includes every 1-4 family property other than the main
+  home, rented or not (bulletin macro); the series is owner-occupied real
+  estate.
+- *Other financial.* This class holds bonds, cash-value life insurance, other
+  managed assets and the non-stock part of retirement accounts; the series is
+  debt securities only.
+- *Other nonfinancial.* SCF vehicles and a listed set of valuables against all
+  consumer durable goods at current cost.
+- *Debt.* The series includes nonprofit organizations' liabilities.
+- *Overlap.* Since 2007 `equity` includes savings accounts invested in stocks,
+  and the same balances are in `liq` (macro: `X3730` and its siblings enter
+  both `LIQ` and `EQUITY`). "Other financial" is negative for
+  0.35% to 1.0% of families in 2007-2022 and for none before.
+- *Net worth concept.* Methods (b) and (d) grow SCF net worth at the rate of a
+  broader aggregate that also includes defined benefit pension entitlements
+  and all consumer durables (both are columns of the DFA file, which sums to
+  household net worth). SCF net worth counts pensions only where they sit in
+  an account (macro: "future pensions (accumulated in an account").
+
+Whether any Financial Accounts household series is itself benchmarked to the
+SCF was not checked. If one is, (b) and (c) are partly in-sample on the
+historical pairs, as (d) is.
 
 **(d) DFA wealth groups.** Households are ranked by net worth within each
 implicate and placed in the DFA's groups (bottom 50%, 50th to 90th, 90th to
 99th, 99th to 99.9th, top 0.1%) by the midpoint of the weight interval they
-occupy. Every asset class is multiplied by the factor for the group's DFA
+occupy, with ties broken by household id. Every asset class is multiplied by the factor for the group's DFA
 total assets, and debt by the factor for the group's DFA total liabilities. A
 group is a fixed share of households, so its household count grows at the
 national rate.
@@ -157,11 +187,15 @@ codebook calls sufficient for simple statistics.
 **Errors.** Error is projected minus actual. Dollar statistics are scored in
 percent of the actual value. The 10th percentile sits near zero, so it is
 scored in percent of the actual median and kept out of the summary scores.
-Shares and the Gini coefficient are scored in percentage points.
+Any other dollar statistic whose actual value is zero or negative is scored
+the same way. Shares and the Gini coefficient are scored in percentage
+points.
 
 **Summary scores.** Mean absolute error within a wave pair over:
 
 - *level*: mean, p25, p50, p75, p90, p99 (percent);
+- *blind level*: p25, p75, p90, p99 (percent), the level statistics whose
+  2025 values had not been published;
 - *distribution*: top 10% share, top 1% share, Gini coefficient (percentage
   points);
 - *subgroup*: the ten group medians (percent).
@@ -172,20 +206,42 @@ implicates. The projection is redone under each replicate's weights for (d),
 whose groups depend on the weights. An error is called within noise when it is
 smaller than 1.96 standard errors of the difference between the projected and
 actual statistic, treating the two waves as independent samples and the
-aggregate factors as known.
+aggregate factors as known. This is a test that can fail to reject, not a
+measure of accuracy: at 1.96 standard errors about one cell in twenty is
+outside noise when the true error is zero, and statistics with wide standard
+errors (the top 1% share, the subgroup medians) pass easily. For in-sample
+(d) the projection is correlated with the target, so the independence
+assumption overstates the standard error.
 
 ## What counts as winning and failing
 
-1. For each summary score, the winner is the contender with the lowest mean
-   over the twelve wave pairs. The number of pairs each contender wins is
-   reported next to it. Because (d) is in-sample on eleven pairs, it is left
-   out of the twelve-pair call and judged with its real-time variant against
-   (a), (b) and (c) on 2016→2019, 2019→2022 and 2022→2025.
-2. The 2022→2025 pair is reported on its own, with the same three scores.
-3. Aging beats doing nothing where (b), (c) or (d) has a lower level score
-   than (a).
-4. A method fails on a statistic in a wave pair when its error is outside
-   noise. Every method fails where all four do.
+Scores are compared unrounded. Exactly equal scores are reported as a tie.
+
+1. **The confirmatory test is 2022→2025.** For each of the four summary
+   scores, the winner is the contender, among (a) to (d), with the lowest
+   score on that pair. The current DFA vintage predates the 2025 SCF, so (d)
+   is a forecast here. The blind level score is the cleanest of the four
+   (see [What was known](#what-was-known-when-this-was-frozen)).
+2. **The development ranking.** On the eleven development pairs, asset-class
+   scaling has the lowest mean level score of (a), (b) and (c). That ranking
+   is contradicted if, on 2022→2025, (a) or (b) has a lower level score or a
+   lower blind level score than (c).
+3. **The twelve-pair record** is the mean of each score over all twelve pairs
+   for (a), (b) and (c), with the number of pairs each wins among those
+   three. (d) is in-sample on eleven pairs, so it is left out of this record
+   and judged instead with `d_dfa_groups_real_time` against (a), (b) and (c)
+   on the three pairs with a real-time vintage: 2016→2019, 2019→2022 and
+   2022→2025.
+4. **Aging against doing nothing.** For each of (b) and (c), the number of
+   the twelve pairs on which its level score is below (a)'s, and whether it
+   is below on 2022→2025. For (d), the same on the three real-time pairs.
+   Each method is judged on its own, not the best of the three.
+5. **Failures.** A method fails on a statistic in a wave pair when its error
+   is outside noise. Over the twenty statistics (mean, the six quantiles, the
+   two top shares, the Gini coefficient and the ten subgroup medians), the
+   report lists every (pair, statistic) where all four contenders fail, and
+   for each method the share of cells outside noise against the one in twenty
+   expected by chance.
 
 The headline chart shows, for 2022→2025, each contender's percent error at
 p10 (in percent of the median), p25, p50, p75, p90, p99 and the mean, against
@@ -217,6 +273,11 @@ Tested with Hypothesis in `tests/`:
 - Factors chain: the factor from *t* to *t+6* is the product of the two
   three-year factors, and a wave projected onto itself is unchanged.
 
+Mutation check (`scripts/mutation_check.py`): eighteen deliberate faults,
+from nudging the weights to reversing the group ranking to dropping the 6/5
+imputation factor, are injected one at a time into a copy of the code; each
+must make the tests fail.
+
 Differential checks: the quantile against NumPy's weighted inverse-CDF
 quantile and against repeated observations; the Gini coefficient against the
 mean-difference formula; top shares against direct accumulation from the top;
@@ -227,11 +288,18 @@ published figures.
 ## What was known when this was frozen
 
 - The Fed's published all-family mean and median net worth for 2022 and 2025,
-  quoted above.
+  quoted above, and nothing else from its report on the 2025 survey. Those two
+  figures fix (a)'s 2025 errors on the mean and median to within the gap
+  between the public and internal files: about -6.6% on the mean and -2.6%
+  on the median. Anyone who also knew the 2022→2025 net worth factor could
+  have worked out (b)'s mean error. The blind level score leaves both
+  statistics out.
 - The aggregate inputs, including their 2025 values. They are inputs to the
   projection, so they were downloaded and checked. Two 2025:Q3 levels (total
   financial assets and the equity share of them) were read while checking the
-  Z.1 accounting identity. The 2022→2025 factors were not computed.
+  Z.1 accounting identity. The test suite computes 2022→2025 factors inside
+  assertions (positivity, chaining, household and price ratio bounds); none
+  was printed or read.
 - Every method's scores on the eleven pairs through 2019→2022, committed
   under `results/` at this tag. The methods have no fitted parameters. The
   quarter, the deflator and the series for each class were fixed before any
@@ -242,6 +310,15 @@ published figures.
   factor ran from 0.24 (2007→2010) to 1.81 (2010→2013). (d) now scales assets
   and debt by separate factors. The first version stays as
   `d_dfa_groups_net_worth`.
+- An independent review of this design, run before the freeze, returned
+  "freeze after fixes" (`docs/review-prereg.md`). The fixes are in this
+  version: the decision rules above, the blind level score, the disclosures
+  in this section and under (c), tie-breaking by household id in (d), and the
+  rule for non-positive actual values. Its finding on the quantile rule came
+  from a mutation-testing run that had left `side="right"` in
+  `weighted_quantile` while the review read the code; the committed code and
+  results use `side="left"` (the first value whose cumulative weight share
+  reaches the level), as the codebook's `MEANIT` does.
 - Not known: anything from the 2025 microdata, or any 2025 projection.
 
 ## Deviations

@@ -51,7 +51,11 @@
     "url": "https://www.federalreserve.gov/releases/z1/dataviz/download/dfa-networth-levels.csv",
     "retrieved_utc": "2026-10-10T01:14:20Z",
     "source_last_modified": "Fri, 18 Sep 2026 19:35:02 GMT",
-    "sha256": "9963de2c04f01e53a7fdb873b99cd9f7ee0d394569b81d52715d32575fde0401"
+    "sha256": "9963de2c04f01e53a7fdb873b99cd9f7ee0d394569b81d52715d32575fde0401",
+    "pre_release_capture": {
+      "url": "http://web.archive.org/web/20261007091645id_/https://www.federalreserve.gov/releases/z1/dataviz/download/dfa-networth-levels.csv",
+      "sha256": "9963de2c04f01e53a7fdb873b99cd9f7ee0d394569b81d52715d32575fde0401"
+    }
   },
   "dfa_networth_levels_wayback_20230922.csv": {
     "url": "http://web.archive.org/web/20230922214757id_/https://www.federalreserve.gov/releases/z1/dataviz/download/dfa-networth-levels.csv",

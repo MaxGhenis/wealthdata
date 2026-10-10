@@ -94,16 +94,19 @@ def scale_classes(sheet: pd.DataFrame, factors: Mapping[str, float]) -> pd.DataF
     return _scaled(sheet, np.array([[float(factors[name]) for name in CLASSES]]))
 
 
-def wealth_group(networth, weights, bounds: Mapping[str, float]) -> np.ndarray:
+def wealth_group(networth, weights, bounds: Mapping[str, float], tiebreak=None) -> np.ndarray:
     """Assign each household to a wealth group by weighted net worth rank.
 
-    Households are ranked by net worth (ties keep their input order) and
-    placed by the midpoint of the weight interval they occupy, so a household
-    belongs to exactly one group.
+    Households are ranked by net worth, ties broken by ``tiebreak`` (a
+    household id; input order if omitted), and placed by the midpoint of the
+    weight interval they occupy, so a household belongs to exactly one group.
     """
     x = np.asarray(networth, dtype="float64")
     w = np.asarray(weights, dtype="float64")
-    order = np.argsort(x, kind="stable")
+    if tiebreak is None:
+        order = np.argsort(x, kind="stable")
+    else:
+        order = np.lexsort((np.asarray(tiebreak), x))
     cumulative = np.cumsum(w[order])
     midpoint = (cumulative - w[order] / 2.0) / cumulative[-1]
     names = list(bounds)
@@ -124,7 +127,8 @@ def scale_wealth_groups(
     """Multiply each class of a household by its wealth group's factor for it.
 
     ``factors`` maps each group to one factor per class. Groups are assigned
-    within each implicate from that implicate's own net worth ranking.
+    within each implicate from that implicate's own net worth ranking, with
+    ties broken by household id so the result does not depend on row order.
     """
     if set(factors) != set(bounds):
         raise ValueError("factors and bounds must name the same groups")
@@ -137,7 +141,12 @@ def scale_wealth_groups(
     row_factors = np.full((len(sheet), len(CLASSES)), np.nan)
     position = pd.Series(np.arange(len(sheet)), index=sheet.index)
     for _, implicate in sheet.groupby("implicate", sort=True):
-        groups = wealth_group(implicate["networth"].to_numpy(), implicate["wgt"].to_numpy(), bounds)
+        groups = wealth_group(
+            implicate["networth"].to_numpy(),
+            implicate["wgt"].to_numpy(),
+            bounds,
+            tiebreak=implicate["case"].to_numpy(),
+        )
         row_factors[position.loc[implicate.index].to_numpy()] = [table[name] for name in groups]
     return _scaled(sheet, row_factors)
 

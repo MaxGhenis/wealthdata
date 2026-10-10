@@ -107,7 +107,7 @@ def test_dfa_groups_sum_to_household_net_worth():
     households = aggregates.household_net_worth()
     common = total.index.intersection(households.index)
     assert len(common) >= 148
-    assert ((total[common] / households[common]) - 1).abs().max() < 1e-3
+    assert ((total[common] / households[common]) - 1).abs().max() < 5e-4
 
 
 def test_dfa_vintages_cover_their_wave_pairs():
@@ -151,8 +151,13 @@ def test_merged_top_group_is_the_sum_of_its_parts(measure):
 def test_real_time_vintages_predate_the_target_scf_release():
     """Snapshots used as real-time inputs were published before the target SCF."""
     manifest = json.loads((sources.AGGREGATES_DIR / "MANIFEST.json").read_text())
-    current = manifest["dfa_networth_levels_current.csv"]["source_last_modified"]
-    assert current == "Fri, 18 Sep 2026 19:35:02 GMT"  # the 2025 SCF came out 9 October 2026
+    current = manifest["dfa_networth_levels_current.csv"]
+    assert current["source_last_modified"] == "Fri, 18 Sep 2026 19:35:02 GMT"
+    # The same bytes were captured by the Internet Archive on 7 October 2026,
+    # two days before the 2025 SCF was published.
+    capture = current["pre_release_capture"]
+    assert "/web/20261007" in capture["url"]
+    assert capture["sha256"] == current["sha256"]
     assert "20230922" in manifest["dfa_networth_levels_wayback_20230922.csv"]["url"]
     for target, vintage in aggregates.NET_WORTH_REAL_TIME_VINTAGE.items():
         assert vintage == f"{target + 1}-06-30"

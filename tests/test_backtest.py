@@ -31,6 +31,15 @@ def test_score_rows_follow_their_definitions(projected, actual, share, actual_sh
     assert by_stat["p50"]["error"] == 0 and by_stat["p50"]["scaled_error"] == 0
 
 
+def test_a_non_positive_actual_is_scored_against_the_median():
+    rows = backtest.score_rows(
+        {"median_race_2": 5.0, "p50": 100.0}, {"median_race_2": -5.0, "p50": 200.0}
+    )
+    row = {item["stat"]: item for item in rows}["median_race_2"]
+    assert np.isnan(row["pct_error"])
+    assert row["scaled_error"] == pytest.approx(100 * 10.0 / 200.0)
+
+
 def test_summary_scores_average_absolute_errors():
     rows = []
     for stat, value in zip(backtest.LEVEL_STATS, (-6, 6, 0, 0, 0, 0), strict=True):
@@ -42,7 +51,12 @@ def test_summary_scores_average_absolute_errors():
     rows.append({"stat": "p10", "scaled_error": 99})
     scores = pd.DataFrame(rows).assign(base=1, target=4, method="m", role="primary")
     summary = backtest.summarize(scores).set_index("score")["mean_abs_error"]
-    assert summary.to_dict() == {"level": 2.0, "distribution": 2.0, "subgroup": 5.0}
+    assert summary.to_dict() == {
+        "level": 2.0,
+        "level_blind": 1.5,
+        "distribution": 2.0,
+        "subgroup": 5.0,
+    }
 
 
 def test_methods_are_named_once_and_four_are_primary():

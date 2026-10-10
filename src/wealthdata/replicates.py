@@ -91,6 +91,9 @@ def load(year: int) -> pd.DataFrame:
     numbers = range(1, REPLICATE_COUNT + 1)
     weight = raw[[f"wt1b{i}" for i in numbers]].to_numpy(dtype="float64")
     multiplicity = raw[[f"mm{i}" for i in numbers]].to_numpy(dtype="float64")
+    # The codebook: "where cases not selected for a replicate, there are
+    # missing values in these variables", and its program takes the maximum
+    # of zero and each value. Missing therefore means weight zero.
     product = np.nan_to_num(np.maximum(weight, 0.0)) * np.nan_to_num(np.maximum(multiplicity, 0.0))
     table = pd.DataFrame(product, index=raw["yy1"].astype("int64").rename("case"), columns=numbers)
     if not table.index.is_unique:

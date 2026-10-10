@@ -41,6 +41,7 @@ STAT_LABELS: dict[str, str] = {
 }
 SCORE_LABELS = {
     "level": "Level (%)",
+    "level_blind": "Blind level (%)",
     "distribution": "Distribution (pp)",
     "subgroup": "Subgroup medians (%)",
 }
@@ -132,7 +133,9 @@ def score_table(results: dict[str, pd.DataFrame], methods: dict[str, str]) -> pd
         )[list(methods)]
         complete = wide.dropna()
         table[label] = complete.mean().map("{:.1f}".format)
-        wins = complete.idxmin(axis=1).value_counts().reindex(list(methods), fill_value=0)
+        # A pair counts as won by every method that attains its minimum, so
+        # an exact tie is a win for each.
+        wins = complete.eq(complete.min(axis=1), axis=0).sum()
         table[f"{label} pairs won"] = wins.astype(int)
     table.index = [methods[name] for name in table.index]
     return table.rename_axis("Method")
@@ -392,3 +395,160 @@ def median_history_figure(results: dict[str, pd.DataFrame]):
         text.set_color(INK)
     figure.tight_layout()
     return figure
+
+
+def mean_score(
+    results: dict[str, pd.DataFrame], method: str, score: str, targets: tuple[int, ...] = ()
+) -> float:
+    """Mean of one summary score over all pairs, or over ``targets``."""
+    summary = results["summary"]
+    subset = summary[(summary["method"] == method) & (summary["score"] == score)]
+    if targets:
+        subset = subset[subset["target"].isin(targets)]
+    return float(subset["mean_abs_error"].mean())
+
+
+def winners(
+    results: dict[str, pd.DataFrame],
+    score: str,
+    methods: tuple[str, ...],
+    targets: tuple[int, ...] = (),
+) -> tuple[str, ...]:
+    """The methods with the lowest unrounded mean of ``score`` (several if tied)."""
+    values = {method: mean_score(results, method, score, targets) for method in methods}
+    best = min(values.values())
+    return tuple(method for method in methods if values[method] == best)
+
+
+def winner(
+    results: dict[str, pd.DataFrame],
+    score: str,
+    methods: tuple[str, ...],
+    targets: tuple[int, ...] = (),
+) -> str:
+    """The winning method, or the tied methods joined by "and"."""
+    return " and ".join(winners(results, score, methods, targets))
+
+
+def value(
+    results: dict[str, pd.DataFrame],
+    target: int,
+    method: str,
+    stat: str,
+    column: str = "scaled_error",
+) -> float:
+    """One cell of the scores table for the pair ending at ``target``."""
+    scores = results["scores"]
+    row = scores[
+        (scores["target"] == target) & (scores["method"] == method) & (scores["stat"] == stat)
+    ]
+    return float(row[column].item())
+
+
+def outside_noise(
+    results: dict[str, pd.DataFrame],
+    method: str,
+    stats: tuple[str, ...],
+    targets: tuple[int, ...] = (),
+) -> int:
+    """Number of (pair, statistic) errors outside sampling noise."""
+    scores = results["scores"]
+    subset = scores[(scores["method"] == method) & scores["stat"].isin(stats)]
+    if targets:
+        subset = subset[subset["target"].isin(targets)]
+    return int((subset["z"].abs() >= backtest.NOISE_THRESHOLD).sum())
+
+
+def variant_table(results: dict[str, pd.DataFrame]) -> pd.DataFrame:
+    """Mean summary scores for every method, with the pairs each covers."""
+    summary = results["summary"]
+    descriptions = {method.name: method.description for method in backtest.METHODS}
+    roles = {method.name: method.role for method in backtest.METHODS}
+    wide = summary.pivot_table(index="method", columns="score", values="mean_abs_error")
+    counts = summary[summary["score"] == "level"].groupby("method")["target"].nunique()
+    table = pd.DataFrame(
+        {
+            "Method": [descriptions[name] for name in descriptions],
+            "Role": [roles[name] for name in descriptions],
+            "Pairs": [int(counts[name]) for name in descriptions],
+            **{
+                label: [f"{wide.loc[name, score]:.1f}" for name in descriptions]
+                for score, label in SCORE_LABELS.items()
+            },
+        },
+        index=list(descriptions),
+    )
+    return table.rename_axis("Name")
+
+
+#: The twenty scored statistics, in report order.
+ALL_STATS: tuple[str, ...] = (
+    "mean",
+    "p10",
+    "p25",
+    "p50",
+    "p75",
+    "p90",
+    "p99",
+    *backtest.DISTRIBUTION_STATS,
+    *backtest.SUBGROUP_STATS,
+)
+
+
+def beats_no_change(results: dict[str, pd.DataFrame]) -> pd.DataFrame:
+    """For each aging method: pairs where its level score is below no change's."""
+    summary = results["summary"]
+    level = summary[summary["score"] == "level"].pivot(
+        index="target", columns="method", values="mean_abs_error"
+    )
+    last = int(level.index.max())
+    real_time = [target for target in REAL_TIME_TARGETS if target in level.index]
+    rows = []
+    for method, label, targets in (
+        ("b_uniform", "(b) Uniform", list(level.index)),
+        ("c_asset_class", "(c) Asset class", list(level.index)),
+        (REAL_TIME, "(d) DFA groups, real-time vintage", real_time),
+    ):
+        below = level.loc[targets, method] < level.loc[targets, "a_no_change"]
+        rows.append(
+            {
+                "Method": label,
+                "Pairs below no change": f"{int(below.sum())} of {len(targets)}",
+                f"Below on {last - 3}→{last}": "yes" if below.loc[last] else "no",
+            }
+        )
+    return pd.DataFrame(rows).set_index("Method")
+
+
+def noise_rates(results: dict[str, pd.DataFrame]) -> pd.DataFrame:
+    """Share of (pair, statistic) errors outside noise, by contender."""
+    scores = results["scores"]
+    last = int(scores["target"].max())
+    rows = []
+    for method, label in {**CONTENDERS, REAL_TIME: "(d) DFA groups, real-time vintage"}.items():
+        subset = scores[(scores["method"] == method) & scores["stat"].isin(ALL_STATS)]
+        outside = subset["z"].abs() >= backtest.NOISE_THRESHOLD
+        on_last = outside[subset["target"] == last]
+        rows.append(
+            {
+                "Method": label,
+                "Pairs": subset["target"].nunique(),
+                "Cells": len(subset),
+                "Outside noise": f"{100 * outside.mean():.0f}%",
+                f"Outside noise, {last - 3}→{last}": f"{int(on_last.sum())} of {len(on_last)}",
+            }
+        )
+    return pd.DataFrame(rows).set_index("Method")
+
+
+def pair_scores(
+    results: dict[str, pd.DataFrame], target: int, methods: dict[str, str]
+) -> pd.DataFrame:
+    """The four summary scores of each method on the pair ending at ``target``."""
+    summary = results["summary"]
+    subset = summary[(summary["target"] == target) & summary["method"].isin(methods)]
+    wide = subset.pivot(index="method", columns="score", values="mean_abs_error")
+    wide = wide.reindex(index=list(methods), columns=list(SCORE_LABELS))
+    wide.columns = list(SCORE_LABELS.values())
+    wide.index = [methods[name] for name in wide.index]
+    return wide.map("{:.1f}".format).rename_axis("Method")

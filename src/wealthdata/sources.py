@@ -72,6 +72,9 @@ DFA_URL = "https://www.federalreserve.gov/releases/z1/dataviz/download/dfa-netwo
 #: Internet Archive capture of the same file from before the 2022 SCF was
 #: published (18 October 2023).
 DFA_WAYBACK_URL = "http://web.archive.org/web/20230922214757id_/" + DFA_URL
+#: Internet Archive capture of the current DFA file taken before the 2025 SCF
+#: was published (9 October 2026). The snapshot must match it byte for byte.
+DFA_PRE_RELEASE_CAPTURE = "http://web.archive.org/web/20261007091645id_/" + DFA_URL
 #: FRED carries the DFA levels by wealth group; ALFRED keeps vintages. The 2020
 #: vintage predates the split of the top 1% at the 99.9th percentile, so it
 #: has four groups. Series are (net worth, total assets, total liabilities).
@@ -229,7 +232,14 @@ def build(out_dir: Path = AGGREGATES_DIR) -> dict:
 
     body, modified = fetch(DFA_URL)
     (out_dir / "dfa_networth_levels_current.csv").write_bytes(body)
-    record("dfa_networth_levels_current.csv", body, DFA_URL, modified)
+    capture, _ = fetch(DFA_PRE_RELEASE_CAPTURE)
+    record(
+        "dfa_networth_levels_current.csv",
+        body,
+        DFA_URL,
+        modified,
+        pre_release_capture={"url": DFA_PRE_RELEASE_CAPTURE, "sha256": sha256(capture)},
+    )
 
     body, modified = fetch(DFA_WAYBACK_URL)
     (out_dir / "dfa_networth_levels_wayback_20230922.csv").write_bytes(body)

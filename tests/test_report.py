@@ -32,7 +32,8 @@ def test_tables_cover_every_pair_and_contender(results):
     scores = report.score_table(results, report.CONTENDERS)
     assert list(scores.index) == list(report.CONTENDERS.values())
     for label in report.SCORE_LABELS.values():
-        assert scores[f"{label} pairs won"].sum() == pair_count
+        # Exact ties count for each tied method, so wins can exceed pairs.
+        assert scores[f"{label} pairs won"].sum() >= pair_count
     by_pair = report.pair_score_table(results, "level", report.CONTENDERS)
     assert by_pair.shape == (len(report.CONTENDERS), pair_count)
     stats = (*backtest.LEVEL_STATS, *backtest.DISTRIBUTION_STATS)
@@ -61,3 +62,51 @@ def test_figures_draw(results):
     assert len(figure.axes[0].collections) >= 2 * len(report.CONTENDERS)
     history = report.median_history_figure(results)
     assert len(history.axes[0].lines) == len(report.CONTENDERS) + 1
+
+
+def test_narrative_helpers_agree_with_the_tables(results):
+    summary = results["summary"]
+    level = summary[summary["score"] == "level"]
+    for method in report.CONTENDERS:
+        expected = level[level["method"] == method]["mean_abs_error"].mean()
+        assert report.mean_score(results, method, "level") == pytest.approx(expected)
+    contenders = tuple(report.CONTENDERS)
+    best = report.winner(results, "level", contenders)
+    assert all(
+        report.mean_score(results, best, "level") <= report.mean_score(results, m, "level")
+        for m in contenders
+    )
+    scores = results["scores"]
+    row = scores.iloc[0]
+    assert report.value(results, row["target"], row["method"], row["stat"]) == row["scaled_error"]
+    assert report.outside_noise(results, "b_uniform", ("p50",)) == int(
+        (
+            scores[(scores["method"] == "b_uniform") & (scores["stat"] == "p50")]["z"].abs() >= 1.96
+        ).sum()
+    )
+    variants = report.variant_table(results)
+    assert set(variants.index) == {method.name for method in backtest.METHODS}
+
+
+def test_confirmatory_tables(results):
+    base, target = report.last_pair(results["scores"])
+    scores = report.pair_scores(results, target, report.CONTENDERS)
+    assert scores.shape == (len(report.CONTENDERS), len(report.SCORE_LABELS))
+    beats = report.beats_no_change(results)
+    assert len(beats) == 3
+    rates = report.noise_rates(results)
+    assert set(rates["Cells"]) <= {
+        pairs * len(report.ALL_STATS) for pairs in range(1, len(backtest.pairs(target)) + 1)
+    }
+    assert len(report.ALL_STATS) == 20
+
+
+def test_winners_report_exact_ties(results):
+    summary = results["summary"].copy()
+    level = summary["score"] == "level"
+    summary.loc[level & (summary["method"] == "b_uniform"), "mean_abs_error"] = 0.0
+    summary.loc[level & (summary["method"] == "c_asset_class"), "mean_abs_error"] = 0.0
+    tied = {**results, "summary": summary}
+    methods = ("a_no_change", "b_uniform", "c_asset_class")
+    assert report.winners(tied, "level", methods) == ("b_uniform", "c_asset_class")
+    assert report.winner(tied, "level", methods) == "b_uniform and c_asset_class"
