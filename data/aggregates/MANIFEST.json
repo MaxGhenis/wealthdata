@@ -1,0 +1,74 @@
+{
+  "cpi_u_rs_september.csv": {
+    "url": "https://www.federalreserve.gov/econres/files/bulletin.macro.txt",
+    "retrieved_utc": "2026-10-10T00:49:26Z",
+    "source_last_modified": "Fri, 09 Oct 2026 14:00:11 GMT",
+    "sha256": "12164d56f12f9cd13f7919fbe9ead777dd8a483f884eaf827f54f56ebf15c789",
+    "source_sha256": "5aef2019a0bbb4f3d77909c404d52c516a706b216b0cc1b25a0cd9a7f9014f98"
+  },
+  "z1_household_balance_sheet.csv": {
+    "url": "https://www.federalreserve.gov/releases/z1/20260911/z1_csv_files.zip",
+    "retrieved_utc": "2026-10-10T00:49:26Z",
+    "source_last_modified": "Fri, 11 Sep 2026 16:00:19 GMT",
+    "sha256": "147ee6ec5a65023f1f8b998007103c7a881331e5263880969394c4f37df442e6",
+    "source_sha256": "b63af9755437df0fb88b7cf346f8f9eaeb22bf1aa2b5df1709334135c43de4b6",
+    "units": "millions of dollars, end of quarter, not seasonally adjusted",
+    "series": {
+      "FL152000005": "Households and nonprofit organizations; total assets",
+      "LM155035015": "Households; owner-occupied real estate including vacant land and mobile homes at market value",
+      "LM155111005": "Households and nonprofit organizations; consumer durable goods, current cost basis",
+      "FL154090005": "Households and nonprofit organizations; total financial assets",
+      "FL154035005": "Households and nonprofit organizations; loans; asset",
+      "LM153081115": "Households and nonprofit organizations; other equity; asset (IMA)",
+      "FL153034005": "Households and nonprofit organizations; money market fund shares; asset",
+      "FL154190005": "Households and nonprofit organizations; total liabilities",
+      "FL152090005": "Households and nonprofit organizations; net worth",
+      "FL154000005": "Households and nonprofit organizations; total currency and deposits; asset",
+      "LM154022375": "Households and nonprofit organizations; directly and indirectly held debt securities; asset",
+      "LM153064475": "Households and nonprofit organizations; directly and indirectly held corporate equities; asset",
+      "FL153099475": "Households and nonprofit organizations; other financial assets (B.101.e)"
+    }
+  },
+  "fred_BOGZ1FL192090005Q.csv": {
+    "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=BOGZ1FL192090005Q",
+    "retrieved_utc": "2026-10-10T00:49:26Z",
+    "source_last_modified": "Fri, 11 Sep 2026 18:50:11 GMT",
+    "sha256": "3d6584024f13351e9247bedfdeaae8fbcc75cf2411c5deab1c153b4d3079faf9"
+  },
+  "fred_TTLHH.csv": {
+    "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=TTLHH",
+    "retrieved_utc": "2026-10-10T00:49:26Z",
+    "source_last_modified": "Thu, 04 Dec 2025 20:16:44 GMT",
+    "sha256": "116b9040ba2307d02ec657dadd61e6b2e295e13eefe45f0cc9bef1feef94a729"
+  },
+  "alfred_BOGZ1FL192090005Q.csv": {
+    "url": "https://alfred.stlouisfed.org/graph/alfredgraph.csv?id=BOGZ1FL192090005Q&vintage_date={vintage}",
+    "retrieved_utc": "2026-10-10T00:49:27Z",
+    "source_last_modified": null,
+    "sha256": "b50fdde49d9f37f3fed52f4ab3e552e0ed41eadc72cdd8f001c218e918273ab0"
+  },
+  "dfa_networth_levels_current.csv": {
+    "url": "https://www.federalreserve.gov/releases/z1/dataviz/download/dfa-networth-levels.csv",
+    "retrieved_utc": "2026-10-10T00:49:27Z",
+    "source_last_modified": "Fri, 18 Sep 2026 19:35:02 GMT",
+    "sha256": "9963de2c04f01e53a7fdb873b99cd9f7ee0d394569b81d52715d32575fde0401"
+  },
+  "dfa_networth_levels_wayback_20230922.csv": {
+    "url": "http://web.archive.org/web/20230922214757id_/https://www.federalreserve.gov/releases/z1/dataviz/download/dfa-networth-levels.csv",
+    "retrieved_utc": "2026-10-10T00:49:28Z",
+    "source_last_modified": null,
+    "sha256": "dbeb848b72e1144bf532ce594923e71456ee34553fdba6443a07c52f1d6c4503"
+  },
+  "dfa_networth_alfred_20200630.csv": {
+    "url": "https://alfred.stlouisfed.org/graph/alfredgraph.csv?id={series}&vintage_date=2020-06-30",
+    "retrieved_utc": "2026-10-10T00:49:30Z",
+    "source_last_modified": null,
+    "sha256": "4e1c00d6e73c465ecf5d71c66045599e11ad4a3e7bbfc9f381e26704c6d2d7b7",
+    "series": {
+      "Top1": "WFRBLT01026",
+      "Next9": "WFRBLN09053",
+      "Next40": "WFRBLN40080",
+      "Bottom50": "WFRBLB50107"
+    }
+  }
+}

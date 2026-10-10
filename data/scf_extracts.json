@@ -1,0 +1,62 @@
+{
+  "1989": {
+    "url": "https://www.federalreserve.gov/econres/files/scfp1989s.zip",
+    "sha256": "70b6addaeb4ce4f578b8ff29c46f974508c3213cda45f3b3303bcd90f0bab589",
+    "pinned_utc": "2026-10-10T00:50:20Z"
+  },
+  "1992": {
+    "url": "https://www.federalreserve.gov/econres/files/scfp1992s.zip",
+    "sha256": "cd99c91444f0fcd9d4c7905f889ef8b712a218cab063add863552f6f71195d36",
+    "pinned_utc": "2026-10-10T00:50:20Z"
+  },
+  "1995": {
+    "url": "https://www.federalreserve.gov/econres/files/scfp1995s.zip",
+    "sha256": "61026d5cfc99f5abc3185a5691a4f1c80188f2c05e89e29d23fec73624bd7e5c",
+    "pinned_utc": "2026-10-10T00:50:20Z"
+  },
+  "1998": {
+    "url": "https://www.federalreserve.gov/econres/files/scfp1998s.zip",
+    "sha256": "6b37947e789fad0f0a6ea2964792de946a78fc4ecfa9d243bafaaedc15ed31d7",
+    "pinned_utc": "2026-10-10T00:50:21Z"
+  },
+  "2001": {
+    "url": "https://www.federalreserve.gov/econres/files/scfp2001s.zip",
+    "sha256": "afcd60708478b442e83d9dee1c45f678caa2e871c0ee9be0e284836ee1bf9b23",
+    "pinned_utc": "2026-10-10T00:50:21Z"
+  },
+  "2004": {
+    "url": "https://www.federalreserve.gov/econres/files/scfp2004s.zip",
+    "sha256": "76d57b52a2303f7d09211e9ce3e005ae1f10700e7fed52ae80c9c53e534f32ba",
+    "pinned_utc": "2026-10-10T00:50:21Z"
+  },
+  "2007": {
+    "url": "https://www.federalreserve.gov/econres/files/scfp2007s.zip",
+    "sha256": "43e509a06274334ba142c153e0cd8dc5ac7b098ec061a831cefc5e2254e719c8",
+    "pinned_utc": "2026-10-10T00:50:21Z"
+  },
+  "2010": {
+    "url": "https://www.federalreserve.gov/econres/files/scfp2010s.zip",
+    "sha256": "3f7b7690a40b40dbc2905bd76d9bd31fa201c7d5c60b43c4abb0aa6cbc7ae84e",
+    "pinned_utc": "2026-10-10T00:50:22Z"
+  },
+  "2013": {
+    "url": "https://www.federalreserve.gov/econres/files/scfp2013s.zip",
+    "sha256": "1055c268dfd4b69d255235d640b580f9d3b3d78f103ae70d74aeea32e4c375b6",
+    "pinned_utc": "2026-10-10T00:50:22Z"
+  },
+  "2016": {
+    "url": "https://www.federalreserve.gov/econres/files/scfp2016s.zip",
+    "sha256": "ed9d62de90541bad8315b6b52e7513b3ccf2541a2302db042e784dc66b0fb6cd",
+    "pinned_utc": "2026-10-10T00:50:22Z"
+  },
+  "2019": {
+    "url": "https://www.federalreserve.gov/econres/files/scfp2019s.zip",
+    "sha256": "1ea39d79cd396e1218056afc124bfc01546fd9cc0088d2253940e4c1fc58234e",
+    "pinned_utc": "2026-10-10T00:50:22Z"
+  },
+  "2022": {
+    "url": "https://www.federalreserve.gov/econres/files/scfp2022s.zip",
+    "sha256": "d4e139c69f6acf72c47512c7a204ae9a38d263781a9f0f51cdaecdf101d2d657",
+    "pinned_utc": "2026-10-10T00:50:22Z"
+  }
+}
