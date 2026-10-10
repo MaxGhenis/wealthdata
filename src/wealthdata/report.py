@@ -326,15 +326,6 @@ def headline_figure(results: dict[str, pd.DataFrame], base: int, target: int):
     axis.set_ylabel(
         f"Projected minus actual {target}, percent of actual", color=SECONDARY, fontsize=9
     )
-    axis.text(
-        len(stats) - 0.45,
-        0,
-        f" actual {target}",
-        color=SECONDARY,
-        fontsize=8.5,
-        va="bottom",
-        ha="right",
-    )
     legend = axis.legend(
         loc="upper center",
         bbox_to_anchor=(0.5, 1.12),
@@ -552,3 +543,30 @@ def pair_scores(
     wide.columns = list(SCORE_LABELS.values())
     wide.index = [methods[name] for name in wide.index]
     return wide.map("{:.1f}".format).rename_axis("Method")
+
+
+def class_growth_table(results: dict[str, pd.DataFrame], target: int) -> pd.DataFrame:
+    """Real growth per family of each class in the SCF against its factor.
+
+    The SCF column is the target wave's mean per family over the base wave's
+    (each with its own weights), so it is the factor the asset-class oracle
+    uses; the Financial Accounts column is the factor method (c) applied.
+    """
+    base = target - 3
+    waves = results["wave_stats"].set_index(["wave", "stat"])["value"]
+    factors = results["factors"]
+    applied = factors[(factors["target"] == target) & (factors["method"] == "c_asset_class")]
+    applied = applied.set_index("item")["factor"]
+    rows = []
+    for name in project.CLASSES:
+        before, after = waves[(base, f"mean_{name}")], waves[(target, f"mean_{name}")]
+        rows.append(
+            {
+                "Class": name.replace("_", " ").capitalize(),
+                f"SCF mean per family, {base}": dollars(before),
+                f"SCF mean per family, {target}": dollars(after),
+                "SCF growth": f"{100 * (after / before - 1):+.1f}%",
+                "Financial Accounts growth": f"{100 * (applied[name] - 1):+.1f}%",
+            }
+        )
+    return pd.DataFrame(rows).set_index("Class")

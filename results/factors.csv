@@ -701,3 +701,76 @@ base,target,method,role,item,factor
 2019,2022,o_asset_class_oracle,oracle,business,1.177907796
 2019,2022,o_asset_class_oracle,oracle,other_nonfinancial,1.316423214
 2019,2022,o_asset_class_oracle,oracle,debt,1.017130532
+2022,2025,b_uniform,primary,all,1.140619341
+2022,2025,c_asset_class,primary,equities,1.542468282
+2022,2025,c_asset_class,primary,deposits,0.9599877436
+2022,2025,c_asset_class,primary,other_financial,1.24529804
+2022,2025,c_asset_class,primary,housing,1.001354279
+2022,2025,c_asset_class,primary,business,0.8875149046
+2022,2025,c_asset_class,primary,other_nonfinancial,1.002503317
+2022,2025,c_asset_class,primary,debt,0.9739161365
+2022,2025,d_dfa_groups,primary,Bottom50 assets,0.9675899195
+2022,2025,d_dfa_groups,primary,Next40 assets,1.051748267
+2022,2025,d_dfa_groups,primary,Next9 assets,1.133685558
+2022,2025,d_dfa_groups,primary,RemainingTop1 assets,1.196629651
+2022,2025,d_dfa_groups,primary,TopPt1 assets,1.253971294
+2022,2025,d_dfa_groups,primary,Bottom50 debt,0.9447611127
+2022,2025,d_dfa_groups,primary,Next40 debt,0.9668858239
+2022,2025,d_dfa_groups,primary,Next9 debt,1.011808068
+2022,2025,d_dfa_groups,primary,RemainingTop1 debt,0.9259184129
+2022,2025,d_dfa_groups,primary,TopPt1 debt,1.062457245
+2022,2025,b_uniform_aggregate,sensitivity,all,1.171812023
+2022,2025,b_uniform_q2,sensitivity,all,1.078861571
+2022,2025,b_uniform_q4,sensitivity,all,1.143760037
+2022,2025,b_uniform_nonprofits,sensitivity,all,1.12913044
+2022,2025,b_uniform_real_time,sensitivity,all,1.140020253
+2022,2025,c_asset_class_q2,sensitivity,equities,1.367076745
+2022,2025,c_asset_class_q2,sensitivity,deposits,0.9436429481
+2022,2025,c_asset_class_q2,sensitivity,other_financial,1.254023789
+2022,2025,c_asset_class_q2,sensitivity,housing,0.9786902406
+2022,2025,c_asset_class_q2,sensitivity,business,0.8681221067
+2022,2025,c_asset_class_q2,sensitivity,other_nonfinancial,1.009756995
+2022,2025,c_asset_class_q2,sensitivity,debt,0.9812711723
+2022,2025,c_asset_class_q4,sensitivity,equities,1.485408584
+2022,2025,c_asset_class_q4,sensitivity,deposits,0.991076281
+2022,2025,c_asset_class_q4,sensitivity,other_financial,1.140100657
+2022,2025,c_asset_class_q4,sensitivity,housing,1.01645225
+2022,2025,c_asset_class_q4,sensitivity,business,0.9101314954
+2022,2025,c_asset_class_q4,sensitivity,other_nonfinancial,1.00754996
+2022,2025,c_asset_class_q4,sensitivity,debt,0.9701907962
+2022,2025,d_dfa_groups_top1,sensitivity,Bottom50 assets,0.9675899195
+2022,2025,d_dfa_groups_top1,sensitivity,Next40 assets,1.051748267
+2022,2025,d_dfa_groups_top1,sensitivity,Next9 assets,1.133685558
+2022,2025,d_dfa_groups_top1,sensitivity,Top1 assets,1.221935724
+2022,2025,d_dfa_groups_top1,sensitivity,Bottom50 debt,0.9447611127
+2022,2025,d_dfa_groups_top1,sensitivity,Next40 debt,0.9668858239
+2022,2025,d_dfa_groups_top1,sensitivity,Next9 debt,1.011808068
+2022,2025,d_dfa_groups_top1,sensitivity,Top1 debt,0.9563055716
+2022,2025,d_dfa_groups_real_time,sensitivity,Bottom50 assets,0.9675899195
+2022,2025,d_dfa_groups_real_time,sensitivity,Next40 assets,1.051748267
+2022,2025,d_dfa_groups_real_time,sensitivity,Next9 assets,1.133685558
+2022,2025,d_dfa_groups_real_time,sensitivity,RemainingTop1 assets,1.196629651
+2022,2025,d_dfa_groups_real_time,sensitivity,TopPt1 assets,1.253971294
+2022,2025,d_dfa_groups_real_time,sensitivity,Bottom50 debt,0.9447611127
+2022,2025,d_dfa_groups_real_time,sensitivity,Next40 debt,0.9668858239
+2022,2025,d_dfa_groups_real_time,sensitivity,Next9 debt,1.011808068
+2022,2025,d_dfa_groups_real_time,sensitivity,RemainingTop1 debt,0.9259184129
+2022,2025,d_dfa_groups_real_time,sensitivity,TopPt1 debt,1.062457245
+2022,2025,d_dfa_groups_net_worth,sensitivity,Bottom50 assets,1.002421696
+2022,2025,d_dfa_groups_net_worth,sensitivity,Next40 assets,1.067880031
+2022,2025,d_dfa_groups_net_worth,sensitivity,Next9 assets,1.142679042
+2022,2025,d_dfa_groups_net_worth,sensitivity,RemainingTop1 assets,1.206887032
+2022,2025,d_dfa_groups_net_worth,sensitivity,TopPt1 assets,1.256538935
+2022,2025,d_dfa_groups_net_worth,sensitivity,Bottom50 debt,1.002421696
+2022,2025,d_dfa_groups_net_worth,sensitivity,Next40 debt,1.067880031
+2022,2025,d_dfa_groups_net_worth,sensitivity,Next9 debt,1.142679042
+2022,2025,d_dfa_groups_net_worth,sensitivity,RemainingTop1 debt,1.206887032
+2022,2025,d_dfa_groups_net_worth,sensitivity,TopPt1 debt,1.256538935
+2022,2025,o_uniform_oracle,oracle,all,1.062572794
+2022,2025,o_asset_class_oracle,oracle,equities,1.20014678
+2022,2025,o_asset_class_oracle,oracle,deposits,0.9951149918
+2022,2025,o_asset_class_oracle,oracle,other_financial,1.082521384
+2022,2025,o_asset_class_oracle,oracle,housing,1.033929303
+2022,2025,o_asset_class_oracle,oracle,business,0.9479231372
+2022,2025,o_asset_class_oracle,oracle,other_nonfinancial,0.9323334509
+2022,2025,o_asset_class_oracle,oracle,debt,0.9918186642

@@ -71,7 +71,9 @@ for a replicate, there are missing values in these variables" before taking
 > in the full data set
 
 The seven dropped observations are those with "net worth at least equal to
-the minimum level needed to qualify for the Forbes list".
+the minimum level needed to qualify for the Forbes list". The 2025 codebook
+(`codebk2025.txt`, read after the freeze) gives "4,360 of the 4,367
+observations" and has the same `MEANIT` median rule.
 
 ## Financial Accounts (Z.1)
 

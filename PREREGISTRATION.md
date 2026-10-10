@@ -323,4 +323,20 @@ published figures.
 
 ## Deviations
 
-None at `prereg-v1`.
+None of the methods, statistics, scores or decision rules changed after
+`prereg-v1`. What changed after the tag:
+
+- The 2025 extract and replicate weights were pinned and opened, and the
+  backtest was rerun through 2022→2025.
+- The tests check the 2025 public extract against the Fed's published 2025
+  mean and median, as they already did for 2022.
+- Scores are compared at the ten significant digits stored in
+  `results/summary.csv`. At that precision (a) and (b) tie on the 2022→2025
+  distribution score; they tie exactly in principle, because uniform scaling
+  leaves shares and the Gini coefficient unchanged.
+- Added to the report after the 2025 results were seen, and labelled as
+  such: a summary whose qualitative claims are asserted against the results
+  when the report renders, and a table comparing each class's growth in the
+  SCF with the Financial Accounts growth applied to it.
+- Report presentation: table numbers keep their formatting, and the baseline
+  label was removed from the headline chart because it overlapped the data.

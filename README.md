@@ -14,12 +14,25 @@ quarterly household net worth from the Financial Accounts
 (`BOGZ1FL192090005Q`). No code was written then. Method (b) below is that
 proposal.
 
-## Status
+## Result
 
-The design in [PREREGISTRATION.md](PREREGISTRATION.md) was frozen before the
-2025 microdata were opened. This commit holds the pipeline, its tests, and
-results for the eleven wave pairs through 2019→2022. The 2025 extract is not
-pinned, so the code cannot load it yet.
+The design in [PREREGISTRATION.md](PREREGISTRATION.md) was frozen and tagged
+`prereg-v1` before the 2025 microdata were opened. The report is
+[report/report.md](report/report.md) (also a self-contained
+[report/report.html](report/report.html)); the headline:
+
+- On 2022→2025, aging helped on levels. The lowest level error, over the mean
+  and five percentiles, was DFA wealth-group scaling at 5.6% against 8.8% for
+  doing nothing; on the four percentiles whose 2025 values were unpublished
+  at the freeze, asset-class scaling won at 5.9% against 11.1%.
+- Every aging method overshot the 2025 mean by 7% to 9%. Financial Accounts
+  equities grew 54% in real terms per household from 2022 to 2025; mean SCF
+  equity holdings grew 20%.
+- No method caught the fall in the top 1% share, from 35.1% to 31.3%, and on
+  medians by age and race doing nothing beat every aging method.
+- Over all twelve pairs, asset-class scaling had the lowest mean level error
+  of the methods that use nothing from the target wave, 10.7% against 13.8%
+  for doing nothing, but beat doing nothing on only 7 of 12 pairs.
 
 ## Methods
 
@@ -37,11 +50,11 @@ Every method leaves weights and demographics untouched.
 ```bash
 uv sync
 uv run pytest
-uv run python -m wealthdata.backtest --through 2022
+uv run python -m wealthdata.backtest
 ```
 
 The first run downloads the SCF extracts and replicate weights from the
-Federal Reserve (about 420 MB) into `~/.cache/wealthdata`; set
+Federal Reserve (about 390 MB) into `~/.cache/wealthdata`; set
 `WEALTHDATA_CACHE` to put them elsewhere. Aggregate inputs are committed under
 `data/aggregates/`, so results do not move when the Fed revises a series.
 `uv run python -m wealthdata.sources` rebuilds that snapshot from the live

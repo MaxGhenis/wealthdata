@@ -63,6 +63,77 @@ RANKING_HELD = (
     if not CONTRADICTED
     else "was contradicted: " + "; ".join(CONTRADICTED) + " beat (c)"
 )
+
+# Numbers for the summary. Each qualitative claim in the summary is asserted
+# here, so the report fails to render if the results stop supporting it.
+AGING = ("b_uniform", "c_asset_class", "d_dfa_groups")
+
+
+def err(method, stat):
+    return report.value(R, TARGET, method, stat)
+
+
+def z(method, stat):
+    return report.value(R, TARGET, method, stat, "z")
+
+
+def pct(value, digits=1):
+    return f"{value:+.{digits}f}%"
+
+
+def factor(method, item):
+    rows = R["factors"]
+    row = rows[(rows["target"] == TARGET) & (rows["method"] == method) & (rows["item"] == item)]
+    return float(row["factor"].item())
+
+
+def actual(year, stat):
+    rows = R["wave_stats"]
+    return float(rows[(rows["wave"] == year) & (rows["stat"] == stat)]["value"].item())
+
+
+LEVEL_WIN = report.winner(R, "level", ALL, (TARGET,))
+BLIND_WIN = report.winner(R, "level_blind", ALL, (TARGET,))
+MEAN_ERRS = sorted(err(m, "mean") for m in AGING)
+assert all(err(m, "mean") > 0 and abs(z(m, "mean")) >= 1.96 for m in AGING)
+assert abs(z("a_no_change", "mean")) < 1.96
+FA_GROWTH = 100 * (factor("b_uniform", "all") - 1)
+SCF_GROWTH = 100 * (factor("o_uniform_oracle", "all") - 1)
+FA_EQUITY = 100 * (factor("c_asset_class", "equities") - 1)
+SCF_EQUITY = 100 * (actual(TARGET, "mean_equities") / actual(BASE, "mean_equities") - 1)
+# Method (c)'s projected mean is the sum over classes of factor times the base
+# wave's class mean; the actual is the sum of the target wave's class means.
+CONTRIBUTION = {
+    item: (1 if item != "debt" else -1)
+    * (
+        factor("c_asset_class", item) * actual(BASE, f"mean_{item}")
+        - actual(TARGET, f"mean_{item}")
+    )
+    for item in ("equities", "deposits", "other_financial", "housing", "business", "other_nonfinancial", "debt")
+}
+OVERSHOOT = sum(CONTRIBUTION.values())
+assert CONTRIBUTION["equities"] > 0.5 * OVERSHOOT > 0
+REST = OVERSHOOT - CONTRIBUTION["equities"]
+OTHERS = f"{'-' if REST < 0 else '+'}${abs(REST) / 1e3:.1f}k"
+TOP1 = (100 * actual(BASE, "top1_share"), 100 * actual(TARGET, "top1_share"))
+TOP1_ERRS = sorted(err(m, "top1_share") for m in ALL)
+assert all(abs(z(m, "top1_share")) >= 1.96 and err(m, "top1_share") > 0 for m in ALL)
+assert max(ALL, key=lambda m: err(m, "top1_share")) == "d_dfa_groups"
+DFA_ASSETS = {g: factor("d_dfa_groups", f"{g} assets") for g in ("Bottom50", "Next40", "Next9", "RemainingTop1", "TopPt1")}
+assert max(DFA_ASSETS, key=DFA_ASSETS.get) == "TopPt1"
+SUBGROUP_NO_CHANGE_BEST = report.mean_score(R, "a_no_change", "subgroup", (TARGET,)) < min(
+    report.mean_score(R, m, "subgroup", (TARGET,)) for m in AGING
+)
+assert SUBGROUP_NO_CHANGE_BEST
+YOUNG = sorted(err(m, "median_age_1") for m in ALL)
+assert YOUNG[0] > 0
+TWELVE = {m: report.mean_score(R, m, "level") for m in ABC}
+assert min(TWELVE, key=TWELVE.get) == "c_asset_class"
+LEVEL = R["summary"][R["summary"]["score"] == "level"].pivot(
+    index="target", columns="method", values="mean_abs_error"
+)
+BEATS = {m: int((LEVEL[m] < LEVEL["a_no_change"]).sum()) for m in ("b_uniform", "c_asset_class")}
+ORACLE = report.mean_score(R, "o_asset_class_oracle", "level")
 ```
 
 Models that need current household wealth take the latest Survey of Consumer
@@ -79,6 +150,54 @@ and one method was changed after looking at them, as the specification
 records. The Fed's report had already given the 2025 mean and median, so a
 *blind level* score, over the 25th, 75th, 90th and 99th percentiles, carries
 the cleanest test.
+
+## Summary
+
+- **The 2022→2025 test.** The lowest level score, over the mean and five
+  percentiles, belongs to `{python} name(LEVEL_WIN)`
+  (`{python} score(LEVEL_WIN, "level", (TARGET,))`%, against
+  `{python} score("a_no_change", "level", (TARGET,))`% for no change). The
+  lowest blind level score, which leaves out the already-published mean and
+  median, belongs to `{python} name(BLIND_WIN)`
+  (`{python} score(BLIND_WIN, "level_blind", (TARGET,))`% against
+  `{python} score("a_no_change", "level_blind", (TARGET,))`%). The ranking
+  from the development pairs `{python} RANKING_HELD`.
+- **Every aging method overshot the 2025 mean**, by
+  `{python} pct(MEAN_ERRS[0])` to `{python} pct(MEAN_ERRS[-1])`, outside
+  sampling noise; holding dollars fixed missed it by
+  `{python} pct(err("a_no_change", "mean"))`, within noise. Financial Accounts
+  household net worth grew `{python} f"{FA_GROWTH:.1f}"`% in real terms per
+  household; the SCF mean grew `{python} f"{SCF_GROWTH:.1f}"`%. For
+  asset-class scaling the overshoot is equities: its projected mean was
+  `{python} report.dollars(OVERSHOOT)` per family too high, equities
+  contributed `{python} report.dollars(CONTRIBUTION["equities"])`, and the
+  other six classes together `{python} OTHERS`. The
+  Financial Accounts equity series grew `{python} f"{FA_EQUITY:.0f}"`% in real
+  terms per household; mean SCF equity holdings grew
+  `{python} f"{SCF_EQUITY:.0f}"`%.
+- **No method caught the fall in the top 1% share**, from
+  `{python} f"{TOP1[0]:.1f}"`% to `{python} f"{TOP1[1]:.1f}"`%. All four
+  overshot it by `{python} f"{TOP1_ERRS[0]:.1f}"` to
+  `{python} f"{TOP1_ERRS[-1]:.1f}"` points, outside noise; DFA scaling, which
+  grew the top groups fastest, missed by the most.
+- **On subgroup medians doing nothing did best in 2025.** Every method,
+  including no change, overshot the under-35 median by
+  `{python} pct(YOUNG[0], 0)` to `{python} pct(YOUNG[-1], 0)`. A projection
+  moves dollars, not people, so it cannot follow a change in who holds what
+  within an age group.
+- **Over all twelve pairs**, asset-class scaling has the lowest mean level
+  score of the three methods that use no SCF information from the target
+  (`{python} f"{TWELVE['c_asset_class']:.1f}"`%, against
+  `{python} f"{TWELVE['b_uniform']:.1f}"`% for uniform scaling and
+  `{python} f"{TWELVE['a_no_change']:.1f}"`% for no change). Pair by pair it
+  is less dependable: uniform scaling beats no change on
+  `{python} BEATS["b_uniform"]` of `{python} PAIRS` pairs and asset-class
+  scaling on `{python} BEATS["c_asset_class"]`.
+- **The ceiling is low.** Scaling each class by the SCF's own growth, which
+  no forecaster has, still leaves a mean level error of
+  `{python} f"{ORACLE:.1f}"`% across the twelve pairs. That remainder is change
+  in the shape of the distribution that scaling by aggregates, even the right
+  ones, does not capture.
 
 ## The 2022→2025 test
 
@@ -122,6 +241,14 @@ than 1.96 standard errors of the difference between projection and survey.
 
 ```{python}
 table(report.detail_table(R, BASE, TARGET, tuple(backtest.SUBGROUP_STATS)))
+```
+
+Mean holdings per family by class, both waves in 2025 dollars, against the
+Financial Accounts growth that asset-class scaling applied. This comparison
+was added after the 2025 results were seen.
+
+```{python}
+table(report.class_growth_table(R, TARGET))
 ```
 
 ## Twelve pairs
@@ -229,8 +356,10 @@ table(report.published_check(R, PUBLISHED).reset_index(), index=False)
 ```
 
 The public file differs from the internal one the report is built from. Per
-the SCF codebook it leaves out respondents wealthy enough for the Forbes list
-and rounds and blurs dollar values.
+the SCF codebooks it leaves out respondents wealthy enough for the Forbes list
+(7 of 4,602 in 2022 and 7 of 4,367 in 2025) and rounds and blurs dollar
+values. Dropping the wealthiest respondents lowers the mean more than the
+median, which fits the gaps above.
 
 ## Method
 

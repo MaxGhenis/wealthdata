@@ -58,5 +58,10 @@
     "url": "https://www.federalreserve.gov/econres/files/scfp2022s.zip",
     "sha256": "d4e139c69f6acf72c47512c7a204ae9a38d263781a9f0f51cdaecdf101d2d657",
     "pinned_utc": "2026-10-10T00:50:22Z"
+  },
+  "2025": {
+    "url": "https://www.federalreserve.gov/econres/files/scfp2025s.zip",
+    "sha256": "32dcf86be48b20fb5fd9e659f79fa22a4d9cccf456e44b6ca9b1329e9869bbeb",
+    "pinned_utc": "2026-10-10T02:01:41Z"
   }
 }

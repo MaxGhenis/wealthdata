@@ -13,7 +13,7 @@ PINNED = sorted(int(year) for year in scf.pins())
 
 #: All-family net worth in thousands of 2025 dollars from the Fed's report on
 #: the 2025 survey (Table 2): (median, mean).
-PUBLISHED = {2022: (211.1, 1164.1)}
+PUBLISHED = {2022: (211.1, 1164.1), 2025: (215.9, 1241.5)}
 
 
 @pytest.fixture(scope="module", params=PINNED)
