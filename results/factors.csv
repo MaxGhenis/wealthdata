@@ -7,11 +7,16 @@ base,target,method,role,item,factor
 1989,1992,c_asset_class,primary,business,0.8947980754
 1989,1992,c_asset_class,primary,other_nonfinancial,0.9987216846
 1989,1992,c_asset_class,primary,debt,1.05376647
-1989,1992,d_dfa_groups,primary,Bottom50,1.160773859
-1989,1992,d_dfa_groups,primary,Next40,1.028636005
-1989,1992,d_dfa_groups,primary,Next9,0.9562723034
-1989,1992,d_dfa_groups,primary,RemainingTop1,0.9943465212
-1989,1992,d_dfa_groups,primary,TopPt1,1.03198561
+1989,1992,d_dfa_groups,primary,Bottom50 assets,1.090268604
+1989,1992,d_dfa_groups,primary,Next40 assets,1.017478823
+1989,1992,d_dfa_groups,primary,Next9 assets,0.9761953128
+1989,1992,d_dfa_groups,primary,RemainingTop1 assets,1.007672871
+1989,1992,d_dfa_groups,primary,TopPt1 assets,1.021659194
+1989,1992,d_dfa_groups,primary,Bottom50 debt,1.038981266
+1989,1992,d_dfa_groups,primary,Next40 debt,0.9651337327
+1989,1992,d_dfa_groups,primary,Next9 debt,1.297761815
+1989,1992,d_dfa_groups,primary,RemainingTop1 debt,1.464271572
+1989,1992,d_dfa_groups,primary,TopPt1 debt,0.6195851545
 1989,1992,b_uniform_aggregate,sensitivity,all,1.031818658
 1989,1992,b_uniform_q2,sensitivity,all,1.011047642
 1989,1992,b_uniform_q4,sensitivity,all,1.0083364
@@ -30,10 +35,24 @@ base,target,method,role,item,factor
 1989,1992,c_asset_class_q4,sensitivity,business,0.8835011904
 1989,1992,c_asset_class_q4,sensitivity,other_nonfinancial,0.9933183766
 1989,1992,c_asset_class_q4,sensitivity,debt,1.046810355
-1989,1992,d_dfa_groups_top1,sensitivity,Bottom50,1.160773859
-1989,1992,d_dfa_groups_top1,sensitivity,Next40,1.028636005
-1989,1992,d_dfa_groups_top1,sensitivity,Next9,0.9562723034
-1989,1992,d_dfa_groups_top1,sensitivity,Top1,1.008535481
+1989,1992,d_dfa_groups_top1,sensitivity,Bottom50 assets,1.090268604
+1989,1992,d_dfa_groups_top1,sensitivity,Next40 assets,1.017478823
+1989,1992,d_dfa_groups_top1,sensitivity,Next9 assets,0.9761953128
+1989,1992,d_dfa_groups_top1,sensitivity,Top1 assets,1.012934158
+1989,1992,d_dfa_groups_top1,sensitivity,Bottom50 debt,1.038981266
+1989,1992,d_dfa_groups_top1,sensitivity,Next40 debt,0.9651337327
+1989,1992,d_dfa_groups_top1,sensitivity,Next9 debt,1.297761815
+1989,1992,d_dfa_groups_top1,sensitivity,Top1 debt,1.170783683
+1989,1992,d_dfa_groups_net_worth,sensitivity,Bottom50 assets,1.160773859
+1989,1992,d_dfa_groups_net_worth,sensitivity,Next40 assets,1.028636005
+1989,1992,d_dfa_groups_net_worth,sensitivity,Next9 assets,0.9562723034
+1989,1992,d_dfa_groups_net_worth,sensitivity,RemainingTop1 assets,0.9943465212
+1989,1992,d_dfa_groups_net_worth,sensitivity,TopPt1 assets,1.03198561
+1989,1992,d_dfa_groups_net_worth,sensitivity,Bottom50 debt,1.160773859
+1989,1992,d_dfa_groups_net_worth,sensitivity,Next40 debt,1.028636005
+1989,1992,d_dfa_groups_net_worth,sensitivity,Next9 debt,0.9562723034
+1989,1992,d_dfa_groups_net_worth,sensitivity,RemainingTop1 debt,0.9943465212
+1989,1992,d_dfa_groups_net_worth,sensitivity,TopPt1 debt,1.03198561
 1989,1992,o_uniform_oracle,oracle,all,0.8877661216
 1989,1992,o_asset_class_oracle,oracle,equities,1.106344099
 1989,1992,o_asset_class_oracle,oracle,deposits,0.8297219827
@@ -50,11 +69,16 @@ base,target,method,role,item,factor
 1992,1995,c_asset_class,primary,business,1.054030054
 1992,1995,c_asset_class,primary,other_nonfinancial,1.041311158
 1992,1995,c_asset_class,primary,debt,1.101371912
-1992,1995,d_dfa_groups,primary,Bottom50,0.9674290671
-1992,1995,d_dfa_groups,primary,Next40,1.026839097
-1992,1995,d_dfa_groups,primary,Next9,1.00228939
-1992,1995,d_dfa_groups,primary,RemainingTop1,1.207228777
-1992,1995,d_dfa_groups,primary,TopPt1,1.384834692
+1992,1995,d_dfa_groups,primary,Bottom50 assets,1.189585558
+1992,1995,d_dfa_groups,primary,Next40 assets,1.028401644
+1992,1995,d_dfa_groups,primary,Next9 assets,0.9923027734
+1992,1995,d_dfa_groups,primary,RemainingTop1 assets,1.203124572
+1992,1995,d_dfa_groups,primary,TopPt1 assets,1.377367614
+1992,1995,d_dfa_groups,primary,Bottom50 debt,1.370131434
+1992,1995,d_dfa_groups,primary,Next40 debt,1.036214329
+1992,1995,d_dfa_groups,primary,Next9 debt,0.8735296443
+1992,1995,d_dfa_groups,primary,RemainingTop1 debt,1.107638512
+1992,1995,d_dfa_groups,primary,TopPt1 debt,0.8931063227
 1992,1995,b_uniform_aggregate,sensitivity,all,1.109929227
 1992,1995,b_uniform_q2,sensitivity,all,1.074732292
 1992,1995,b_uniform_q4,sensitivity,all,1.071149681
@@ -73,10 +97,24 @@ base,target,method,role,item,factor
 1992,1995,c_asset_class_q4,sensitivity,business,1.071636426
 1992,1995,c_asset_class_q4,sensitivity,other_nonfinancial,1.040982271
 1992,1995,c_asset_class_q4,sensitivity,debt,1.10275522
-1992,1995,d_dfa_groups_top1,sensitivity,Bottom50,0.9674290671
-1992,1995,d_dfa_groups_top1,sensitivity,Next40,1.026839097
-1992,1995,d_dfa_groups_top1,sensitivity,Next9,1.00228939
-1992,1995,d_dfa_groups_top1,sensitivity,Top1,1.275738362
+1992,1995,d_dfa_groups_top1,sensitivity,Bottom50 assets,1.189585558
+1992,1995,d_dfa_groups_top1,sensitivity,Next40 assets,1.028401644
+1992,1995,d_dfa_groups_top1,sensitivity,Next9 assets,0.9923027734
+1992,1995,d_dfa_groups_top1,sensitivity,Top1 assets,1.269234809
+1992,1995,d_dfa_groups_top1,sensitivity,Bottom50 debt,1.370131434
+1992,1995,d_dfa_groups_top1,sensitivity,Next40 debt,1.036214329
+1992,1995,d_dfa_groups_top1,sensitivity,Next9 debt,0.8735296443
+1992,1995,d_dfa_groups_top1,sensitivity,Top1 debt,1.068191739
+1992,1995,d_dfa_groups_net_worth,sensitivity,Bottom50 assets,0.9674290671
+1992,1995,d_dfa_groups_net_worth,sensitivity,Next40 assets,1.026839097
+1992,1995,d_dfa_groups_net_worth,sensitivity,Next9 assets,1.00228939
+1992,1995,d_dfa_groups_net_worth,sensitivity,RemainingTop1 assets,1.207228777
+1992,1995,d_dfa_groups_net_worth,sensitivity,TopPt1 assets,1.384834692
+1992,1995,d_dfa_groups_net_worth,sensitivity,Bottom50 debt,0.9674290671
+1992,1995,d_dfa_groups_net_worth,sensitivity,Next40 debt,1.026839097
+1992,1995,d_dfa_groups_net_worth,sensitivity,Next9 debt,1.00228939
+1992,1995,d_dfa_groups_net_worth,sensitivity,RemainingTop1 debt,1.207228777
+1992,1995,d_dfa_groups_net_worth,sensitivity,TopPt1 debt,1.384834692
 1992,1995,o_uniform_oracle,oracle,all,1.064192521
 1992,1995,o_asset_class_oracle,oracle,equities,1.474467941
 1992,1995,o_asset_class_oracle,oracle,deposits,0.9563516129
@@ -93,11 +131,16 @@ base,target,method,role,item,factor
 1995,1998,c_asset_class,primary,business,1.117368595
 1995,1998,c_asset_class,primary,other_nonfinancial,1.015492345
 1995,1998,c_asset_class,primary,debt,1.116098616
-1995,1998,d_dfa_groups,primary,Bottom50,1.080297128
-1995,1998,d_dfa_groups,primary,Next40,1.12252352
-1995,1998,d_dfa_groups,primary,Next9,1.188559403
-1995,1998,d_dfa_groups,primary,RemainingTop1,1.147125073
-1995,1998,d_dfa_groups,primary,TopPt1,1.125059997
+1995,1998,d_dfa_groups,primary,Bottom50 assets,1.016042573
+1995,1998,d_dfa_groups,primary,Next40 assets,1.124652787
+1995,1998,d_dfa_groups,primary,Next9 assets,1.200768888
+1995,1998,d_dfa_groups,primary,RemainingTop1 assets,1.147631928
+1995,1998,d_dfa_groups,primary,TopPt1 assets,1.134664441
+1995,1998,d_dfa_groups,primary,Bottom50 debt,0.9791711939
+1995,1998,d_dfa_groups,primary,Next40 debt,1.135203535
+1995,1998,d_dfa_groups,primary,Next9 debt,1.367385284
+1995,1998,d_dfa_groups,primary,RemainingTop1 debt,1.160485543
+1995,1998,d_dfa_groups,primary,TopPt1 debt,2.100484075
 1995,1998,b_uniform_aggregate,sensitivity,all,1.188575595
 1995,1998,b_uniform_q2,sensitivity,all,1.185545986
 1995,1998,b_uniform_q4,sensitivity,all,1.184902282
@@ -116,10 +159,24 @@ base,target,method,role,item,factor
 1995,1998,c_asset_class_q4,sensitivity,business,1.108767913
 1995,1998,c_asset_class_q4,sensitivity,other_nonfinancial,1.019061303
 1995,1998,c_asset_class_q4,sensitivity,debt,1.121425037
-1995,1998,d_dfa_groups_top1,sensitivity,Bottom50,1.080297128
-1995,1998,d_dfa_groups_top1,sensitivity,Next40,1.12252352
-1995,1998,d_dfa_groups_top1,sensitivity,Next9,1.188559403
-1995,1998,d_dfa_groups_top1,sensitivity,Top1,1.137885845
+1995,1998,d_dfa_groups_top1,sensitivity,Bottom50 assets,1.016042573
+1995,1998,d_dfa_groups_top1,sensitivity,Next40 assets,1.124652787
+1995,1998,d_dfa_groups_top1,sensitivity,Next9 assets,1.200768888
+1995,1998,d_dfa_groups_top1,sensitivity,Top1 assets,1.142292718
+1995,1998,d_dfa_groups_top1,sensitivity,Bottom50 debt,0.9791711939
+1995,1998,d_dfa_groups_top1,sensitivity,Next40 debt,1.135203535
+1995,1998,d_dfa_groups_top1,sensitivity,Next9 debt,1.367385284
+1995,1998,d_dfa_groups_top1,sensitivity,Top1 debt,1.304996288
+1995,1998,d_dfa_groups_net_worth,sensitivity,Bottom50 assets,1.080297128
+1995,1998,d_dfa_groups_net_worth,sensitivity,Next40 assets,1.12252352
+1995,1998,d_dfa_groups_net_worth,sensitivity,Next9 assets,1.188559403
+1995,1998,d_dfa_groups_net_worth,sensitivity,RemainingTop1 assets,1.147125073
+1995,1998,d_dfa_groups_net_worth,sensitivity,TopPt1 assets,1.125059997
+1995,1998,d_dfa_groups_net_worth,sensitivity,Bottom50 debt,1.080297128
+1995,1998,d_dfa_groups_net_worth,sensitivity,Next40 debt,1.12252352
+1995,1998,d_dfa_groups_net_worth,sensitivity,Next9 debt,1.188559403
+1995,1998,d_dfa_groups_net_worth,sensitivity,RemainingTop1 debt,1.147125073
+1995,1998,d_dfa_groups_net_worth,sensitivity,TopPt1 debt,1.125059997
 1995,1998,o_uniform_oracle,oracle,all,1.25379796
 1995,1998,o_asset_class_oracle,oracle,equities,1.85612409
 1995,1998,o_asset_class_oracle,oracle,deposits,1.102387394
@@ -136,11 +193,16 @@ base,target,method,role,item,factor
 1998,2001,c_asset_class,primary,business,1.055484366
 1998,2001,c_asset_class,primary,other_nonfinancial,1.030008416
 1998,2001,c_asset_class,primary,debt,1.127641457
-1998,2001,d_dfa_groups,primary,Bottom50,0.9433695308
-1998,2001,d_dfa_groups,primary,Next40,1.079885705
-1998,2001,d_dfa_groups,primary,Next9,1.058432631
-1998,2001,d_dfa_groups,primary,RemainingTop1,1.046315857
-1998,2001,d_dfa_groups,primary,TopPt1,0.8836450376
+1998,2001,d_dfa_groups,primary,Bottom50 assets,1.0304161
+1998,2001,d_dfa_groups,primary,Next40 assets,1.099328489
+1998,2001,d_dfa_groups,primary,Next9 assets,1.061315283
+1998,2001,d_dfa_groups,primary,RemainingTop1 assets,1.057190592
+1998,2001,d_dfa_groups,primary,TopPt1 assets,0.8742350642
+1998,2001,d_dfa_groups,primary,Bottom50 debt,1.085524545
+1998,2001,d_dfa_groups,primary,Next40 debt,1.194593474
+1998,2001,d_dfa_groups,primary,Next9 debt,1.095509534
+1998,2001,d_dfa_groups,primary,RemainingTop1 debt,1.329793583
+1998,2001,d_dfa_groups,primary,TopPt1 debt,0.3673978314
 1998,2001,b_uniform_aggregate,sensitivity,all,1.09793437
 1998,2001,b_uniform_q2,sensitivity,all,1.0469684
 1998,2001,b_uniform_q4,sensitivity,all,1.019352234
@@ -159,10 +221,24 @@ base,target,method,role,item,factor
 1998,2001,c_asset_class_q4,sensitivity,business,1.04052916
 1998,2001,c_asset_class_q4,sensitivity,other_nonfinancial,1.032799338
 1998,2001,c_asset_class_q4,sensitivity,debt,1.119135872
-1998,2001,d_dfa_groups_top1,sensitivity,Bottom50,0.9433695308
-1998,2001,d_dfa_groups_top1,sensitivity,Next40,1.079885705
-1998,2001,d_dfa_groups_top1,sensitivity,Next9,1.058432631
-1998,2001,d_dfa_groups_top1,sensitivity,Top1,0.9789690713
+1998,2001,d_dfa_groups_top1,sensitivity,Bottom50 assets,1.0304161
+1998,2001,d_dfa_groups_top1,sensitivity,Next40 assets,1.099328489
+1998,2001,d_dfa_groups_top1,sensitivity,Next9 assets,1.061315283
+1998,2001,d_dfa_groups_top1,sensitivity,Top1 assets,0.9823638672
+1998,2001,d_dfa_groups_top1,sensitivity,Bottom50 debt,1.085524545
+1998,2001,d_dfa_groups_top1,sensitivity,Next40 debt,1.194593474
+1998,2001,d_dfa_groups_top1,sensitivity,Next9 debt,1.095509534
+1998,2001,d_dfa_groups_top1,sensitivity,Top1 debt,1.091651154
+1998,2001,d_dfa_groups_net_worth,sensitivity,Bottom50 assets,0.9433695308
+1998,2001,d_dfa_groups_net_worth,sensitivity,Next40 assets,1.079885705
+1998,2001,d_dfa_groups_net_worth,sensitivity,Next9 assets,1.058432631
+1998,2001,d_dfa_groups_net_worth,sensitivity,RemainingTop1 assets,1.046315857
+1998,2001,d_dfa_groups_net_worth,sensitivity,TopPt1 assets,0.8836450376
+1998,2001,d_dfa_groups_net_worth,sensitivity,Bottom50 debt,0.9433695308
+1998,2001,d_dfa_groups_net_worth,sensitivity,Next40 debt,1.079885705
+1998,2001,d_dfa_groups_net_worth,sensitivity,Next9 debt,1.058432631
+1998,2001,d_dfa_groups_net_worth,sensitivity,RemainingTop1 debt,1.046315857
+1998,2001,d_dfa_groups_net_worth,sensitivity,TopPt1 debt,0.8836450376
 1998,2001,o_uniform_oracle,oracle,all,1.286887288
 1998,2001,o_asset_class_oracle,oracle,equities,1.378261402
 1998,2001,o_asset_class_oracle,oracle,deposits,1.229408057
@@ -179,11 +255,16 @@ base,target,method,role,item,factor
 2001,2004,c_asset_class,primary,business,1.139869837
 2001,2004,c_asset_class,primary,other_nonfinancial,1.048275394
 2001,2004,c_asset_class,primary,debt,1.226930777
-2001,2004,d_dfa_groups,primary,Bottom50,0.8942495107
-2001,2004,d_dfa_groups,primary,Next40,1.084214294
-2001,2004,d_dfa_groups,primary,Next9,1.156290999
-2001,2004,d_dfa_groups,primary,RemainingTop1,1.19019224
-2001,2004,d_dfa_groups,primary,TopPt1,1.181810072
+2001,2004,d_dfa_groups,primary,Bottom50 assets,1.075873056
+2001,2004,d_dfa_groups,primary,Next40 assets,1.119970166
+2001,2004,d_dfa_groups,primary,Next9 assets,1.155535482
+2001,2004,d_dfa_groups,primary,RemainingTop1 assets,1.203258614
+2001,2004,d_dfa_groups,primary,TopPt1 assets,1.186409489
+2001,2004,d_dfa_groups,primary,Bottom50 debt,1.175800863
+2001,2004,d_dfa_groups,primary,Next40 debt,1.278342704
+2001,2004,d_dfa_groups,primary,Next9 debt,1.146876804
+2001,2004,d_dfa_groups,primary,RemainingTop1 debt,1.46097977
+2001,2004,d_dfa_groups,primary,TopPt1 debt,1.7822419
 2001,2004,b_uniform_aggregate,sensitivity,all,1.16982927
 2001,2004,b_uniform_q2,sensitivity,all,1.07927892
 2001,2004,b_uniform_q4,sensitivity,all,1.13553797
@@ -202,10 +283,24 @@ base,target,method,role,item,factor
 2001,2004,c_asset_class_q4,sensitivity,business,1.17416725
 2001,2004,c_asset_class_q4,sensitivity,other_nonfinancial,1.050744833
 2001,2004,c_asset_class_q4,sensitivity,debt,1.248148439
-2001,2004,d_dfa_groups_top1,sensitivity,Bottom50,0.8942495107
-2001,2004,d_dfa_groups_top1,sensitivity,Next40,1.084214294
-2001,2004,d_dfa_groups_top1,sensitivity,Next9,1.156290999
-2001,2004,d_dfa_groups_top1,sensitivity,Top1,1.187059874
+2001,2004,d_dfa_groups_top1,sensitivity,Bottom50 assets,1.075873056
+2001,2004,d_dfa_groups_top1,sensitivity,Next40 assets,1.119970166
+2001,2004,d_dfa_groups_top1,sensitivity,Next9 assets,1.155535482
+2001,2004,d_dfa_groups_top1,sensitivity,Top1 assets,1.197126017
+2001,2004,d_dfa_groups_top1,sensitivity,Bottom50 debt,1.175800863
+2001,2004,d_dfa_groups_top1,sensitivity,Next40 debt,1.278342704
+2001,2004,d_dfa_groups_top1,sensitivity,Next9 debt,1.146876804
+2001,2004,d_dfa_groups_top1,sensitivity,Top1 debt,1.487734177
+2001,2004,d_dfa_groups_net_worth,sensitivity,Bottom50 assets,0.8942495107
+2001,2004,d_dfa_groups_net_worth,sensitivity,Next40 assets,1.084214294
+2001,2004,d_dfa_groups_net_worth,sensitivity,Next9 assets,1.156290999
+2001,2004,d_dfa_groups_net_worth,sensitivity,RemainingTop1 assets,1.19019224
+2001,2004,d_dfa_groups_net_worth,sensitivity,TopPt1 assets,1.181810072
+2001,2004,d_dfa_groups_net_worth,sensitivity,Bottom50 debt,0.8942495107
+2001,2004,d_dfa_groups_net_worth,sensitivity,Next40 debt,1.084214294
+2001,2004,d_dfa_groups_net_worth,sensitivity,Next9 debt,1.156290999
+2001,2004,d_dfa_groups_net_worth,sensitivity,RemainingTop1 debt,1.19019224
+2001,2004,d_dfa_groups_net_worth,sensitivity,TopPt1 debt,1.181810072
 2001,2004,o_uniform_oracle,oracle,all,1.06036286
 2001,2004,o_asset_class_oracle,oracle,equities,0.8353303731
 2001,2004,o_asset_class_oracle,oracle,deposits,1.060319346
@@ -222,11 +317,16 @@ base,target,method,role,item,factor
 2004,2007,c_asset_class,primary,business,1.138167587
 2004,2007,c_asset_class,primary,other_nonfinancial,1.017073757
 2004,2007,c_asset_class,primary,debt,1.17274138
-2004,2007,d_dfa_groups,primary,Bottom50,0.8973858458
-2004,2007,d_dfa_groups,primary,Next40,1.011663175
-2004,2007,d_dfa_groups,primary,Next9,1.156749503
-2004,2007,d_dfa_groups,primary,RemainingTop1,1.131147756
-2004,2007,d_dfa_groups,primary,TopPt1,1.328910807
+2004,2007,d_dfa_groups,primary,Bottom50 assets,1.226478057
+2004,2007,d_dfa_groups,primary,Next40 assets,1.016027678
+2004,2007,d_dfa_groups,primary,Next9 assets,1.173201915
+2004,2007,d_dfa_groups,primary,RemainingTop1 assets,1.112192784
+2004,2007,d_dfa_groups,primary,TopPt1 assets,1.327875564
+2004,2007,d_dfa_groups,primary,Bottom50 debt,1.364184953
+2004,2007,d_dfa_groups,primary,Next40 debt,1.032423572
+2004,2007,d_dfa_groups,primary,Next9 debt,1.363299668
+2004,2007,d_dfa_groups,primary,RemainingTop1 debt,0.8076211429
+2004,2007,d_dfa_groups,primary,TopPt1 debt,1.238946334
 2004,2007,b_uniform_aggregate,sensitivity,all,1.153438156
 2004,2007,b_uniform_q2,sensitivity,all,1.124888809
 2004,2007,b_uniform_q4,sensitivity,all,1.057680945
@@ -245,10 +345,24 @@ base,target,method,role,item,factor
 2004,2007,c_asset_class_q4,sensitivity,business,1.096245624
 2004,2007,c_asset_class_q4,sensitivity,other_nonfinancial,1.009282862
 2004,2007,c_asset_class_q4,sensitivity,debt,1.14982255
-2004,2007,d_dfa_groups_top1,sensitivity,Bottom50,0.8973858458
-2004,2007,d_dfa_groups_top1,sensitivity,Next40,1.011663175
-2004,2007,d_dfa_groups_top1,sensitivity,Next9,1.156749503
-2004,2007,d_dfa_groups_top1,sensitivity,Top1,1.204723778
+2004,2007,d_dfa_groups_top1,sensitivity,Bottom50 assets,1.226478057
+2004,2007,d_dfa_groups_top1,sensitivity,Next40 assets,1.016027678
+2004,2007,d_dfa_groups_top1,sensitivity,Next9 assets,1.173201915
+2004,2007,d_dfa_groups_top1,sensitivity,Top1 assets,1.189992365
+2004,2007,d_dfa_groups_top1,sensitivity,Bottom50 debt,1.364184953
+2004,2007,d_dfa_groups_top1,sensitivity,Next40 debt,1.032423572
+2004,2007,d_dfa_groups_top1,sensitivity,Next9 debt,1.363299668
+2004,2007,d_dfa_groups_top1,sensitivity,Top1 debt,0.8506521911
+2004,2007,d_dfa_groups_net_worth,sensitivity,Bottom50 assets,0.8973858458
+2004,2007,d_dfa_groups_net_worth,sensitivity,Next40 assets,1.011663175
+2004,2007,d_dfa_groups_net_worth,sensitivity,Next9 assets,1.156749503
+2004,2007,d_dfa_groups_net_worth,sensitivity,RemainingTop1 assets,1.131147756
+2004,2007,d_dfa_groups_net_worth,sensitivity,TopPt1 assets,1.328910807
+2004,2007,d_dfa_groups_net_worth,sensitivity,Bottom50 debt,0.8973858458
+2004,2007,d_dfa_groups_net_worth,sensitivity,Next40 debt,1.011663175
+2004,2007,d_dfa_groups_net_worth,sensitivity,Next9 debt,1.156749503
+2004,2007,d_dfa_groups_net_worth,sensitivity,RemainingTop1 debt,1.131147756
+2004,2007,d_dfa_groups_net_worth,sensitivity,TopPt1 debt,1.328910807
 2004,2007,o_uniform_oracle,oracle,all,1.129008027
 2004,2007,o_asset_class_oracle,oracle,equities,1.126022938
 2004,2007,o_asset_class_oracle,oracle,deposits,0.956245615
@@ -265,11 +379,16 @@ base,target,method,role,item,factor
 2007,2010,c_asset_class,primary,business,0.7070534306
 2007,2010,c_asset_class,primary,other_nonfinancial,0.9616951537
 2007,2010,c_asset_class,primary,debt,0.9272668206
-2007,2010,d_dfa_groups,primary,Bottom50,0.2349513859
-2007,2010,d_dfa_groups,primary,Next40,0.8608304302
-2007,2010,d_dfa_groups,primary,Next9,0.9083115842
-2007,2010,d_dfa_groups,primary,RemainingTop1,0.8923463459
-2007,2010,d_dfa_groups,primary,TopPt1,0.7788749974
+2007,2010,d_dfa_groups,primary,Bottom50 assets,0.8301196413
+2007,2010,d_dfa_groups,primary,Next40 assets,0.8622433853
+2007,2010,d_dfa_groups,primary,Next9 assets,0.9050952378
+2007,2010,d_dfa_groups,primary,RemainingTop1 assets,0.8966426183
+2007,2010,d_dfa_groups,primary,TopPt1 assets,0.7850238855
+2007,2010,d_dfa_groups,primary,Bottom50 debt,0.9939455019
+2007,2010,d_dfa_groups,primary,Next40 debt,0.8674446233
+2007,2010,d_dfa_groups,primary,Next9 debt,0.8735623709
+2007,2010,d_dfa_groups,primary,RemainingTop1 debt,0.9933274823
+2007,2010,d_dfa_groups,primary,TopPt1 debt,1.351590219
 2007,2010,b_uniform_aggregate,sensitivity,all,0.8733354342
 2007,2010,b_uniform_q2,sensitivity,all,0.8438205516
 2007,2010,b_uniform_q4,sensitivity,all,0.8948404221
@@ -288,10 +407,24 @@ base,target,method,role,item,factor
 2007,2010,c_asset_class_q4,sensitivity,business,0.7308583001
 2007,2010,c_asset_class_q4,sensitivity,other_nonfinancial,0.9548137146
 2007,2010,c_asset_class_q4,sensitivity,debt,0.9138137451
-2007,2010,d_dfa_groups_top1,sensitivity,Bottom50,0.2349513859
-2007,2010,d_dfa_groups_top1,sensitivity,Next40,0.8608304302
-2007,2010,d_dfa_groups_top1,sensitivity,Next9,0.9083115842
-2007,2010,d_dfa_groups_top1,sensitivity,Top1,0.8457785463
+2007,2010,d_dfa_groups_top1,sensitivity,Bottom50 assets,0.8301196413
+2007,2010,d_dfa_groups_top1,sensitivity,Next40 assets,0.8622433853
+2007,2010,d_dfa_groups_top1,sensitivity,Next9 assets,0.9050952378
+2007,2010,d_dfa_groups_top1,sensitivity,Top1 assets,0.8517151367
+2007,2010,d_dfa_groups_top1,sensitivity,Bottom50 debt,0.9939455019
+2007,2010,d_dfa_groups_top1,sensitivity,Next40 debt,0.8674446233
+2007,2010,d_dfa_groups_top1,sensitivity,Next9 debt,0.8735623709
+2007,2010,d_dfa_groups_top1,sensitivity,Top1 debt,1.045384491
+2007,2010,d_dfa_groups_net_worth,sensitivity,Bottom50 assets,0.2349513859
+2007,2010,d_dfa_groups_net_worth,sensitivity,Next40 assets,0.8608304302
+2007,2010,d_dfa_groups_net_worth,sensitivity,Next9 assets,0.9083115842
+2007,2010,d_dfa_groups_net_worth,sensitivity,RemainingTop1 assets,0.8923463459
+2007,2010,d_dfa_groups_net_worth,sensitivity,TopPt1 assets,0.7788749974
+2007,2010,d_dfa_groups_net_worth,sensitivity,Bottom50 debt,0.2349513859
+2007,2010,d_dfa_groups_net_worth,sensitivity,Next40 debt,0.8608304302
+2007,2010,d_dfa_groups_net_worth,sensitivity,Next9 debt,0.9083115842
+2007,2010,d_dfa_groups_net_worth,sensitivity,RemainingTop1 debt,0.8923463459
+2007,2010,d_dfa_groups_net_worth,sensitivity,TopPt1 debt,0.7788749974
 2007,2010,o_uniform_oracle,oracle,all,0.8480968726
 2007,2010,o_asset_class_oracle,oracle,equities,0.8330896276
 2007,2010,o_asset_class_oracle,oracle,deposits,1.10144043
@@ -308,11 +441,16 @@ base,target,method,role,item,factor
 2010,2013,c_asset_class,primary,business,1.144175798
 2010,2013,c_asset_class,primary,other_nonfinancial,0.9431849328
 2010,2013,c_asset_class,primary,debt,0.8749774319
-2010,2013,d_dfa_groups,primary,Bottom50,1.810075133
-2010,2013,d_dfa_groups,primary,Next40,1.053216726
-2010,2013,d_dfa_groups,primary,Next9,1.06020596
-2010,2013,d_dfa_groups,primary,RemainingTop1,1.063788246
-2010,2013,d_dfa_groups,primary,TopPt1,1.210010767
+2010,2013,d_dfa_groups,primary,Bottom50 assets,0.8751451273
+2010,2013,d_dfa_groups,primary,Next40 assets,1.02609009
+2010,2013,d_dfa_groups,primary,Next9 assets,1.046368605
+2010,2013,d_dfa_groups,primary,RemainingTop1 assets,1.052917752
+2010,2013,d_dfa_groups,primary,TopPt1 assets,1.198189968
+2010,2013,d_dfa_groups,primary,Bottom50 debt,0.8143123433
+2010,2013,d_dfa_groups,primary,Next40 debt,0.9269954522
+2010,2013,d_dfa_groups,primary,Next9 debt,0.9053131739
+2010,2013,d_dfa_groups,primary,RemainingTop1 debt,0.8331529592
+2010,2013,d_dfa_groups,primary,TopPt1 debt,0.5705261841
 2010,2013,b_uniform_aggregate,sensitivity,all,1.124017684
 2010,2013,b_uniform_q2,sensitivity,all,1.080747309
 2010,2013,b_uniform_q4,sensitivity,all,1.078741365
@@ -331,10 +469,24 @@ base,target,method,role,item,factor
 2010,2013,c_asset_class_q4,sensitivity,business,1.145297972
 2010,2013,c_asset_class_q4,sensitivity,other_nonfinancial,0.942181268
 2010,2013,c_asset_class_q4,sensitivity,debt,0.8859648119
-2010,2013,d_dfa_groups_top1,sensitivity,Bottom50,1.810075133
-2010,2013,d_dfa_groups_top1,sensitivity,Next40,1.053216726
-2010,2013,d_dfa_groups_top1,sensitivity,Next9,1.06020596
-2010,2013,d_dfa_groups_top1,sensitivity,Top1,1.119050025
+2010,2013,d_dfa_groups_top1,sensitivity,Bottom50 assets,0.8751451273
+2010,2013,d_dfa_groups_top1,sensitivity,Next40 assets,1.02609009
+2010,2013,d_dfa_groups_top1,sensitivity,Next9 assets,1.046368605
+2010,2013,d_dfa_groups_top1,sensitivity,Top1 assets,1.106812451
+2010,2013,d_dfa_groups_top1,sensitivity,Bottom50 debt,0.8143123433
+2010,2013,d_dfa_groups_top1,sensitivity,Next40 debt,0.9269954522
+2010,2013,d_dfa_groups_top1,sensitivity,Next9 debt,0.9053131739
+2010,2013,d_dfa_groups_top1,sensitivity,Top1 debt,0.7838145027
+2010,2013,d_dfa_groups_net_worth,sensitivity,Bottom50 assets,1.810075133
+2010,2013,d_dfa_groups_net_worth,sensitivity,Next40 assets,1.053216726
+2010,2013,d_dfa_groups_net_worth,sensitivity,Next9 assets,1.06020596
+2010,2013,d_dfa_groups_net_worth,sensitivity,RemainingTop1 assets,1.063788246
+2010,2013,d_dfa_groups_net_worth,sensitivity,TopPt1 assets,1.210010767
+2010,2013,d_dfa_groups_net_worth,sensitivity,Bottom50 debt,1.810075133
+2010,2013,d_dfa_groups_net_worth,sensitivity,Next40 debt,1.053216726
+2010,2013,d_dfa_groups_net_worth,sensitivity,Next9 debt,1.06020596
+2010,2013,d_dfa_groups_net_worth,sensitivity,RemainingTop1 debt,1.063788246
+2010,2013,d_dfa_groups_net_worth,sensitivity,TopPt1 debt,1.210010767
 2010,2013,o_uniform_oracle,oracle,all,0.9953596729
 2010,2013,o_asset_class_oracle,oracle,equities,1.153705789
 2010,2013,o_asset_class_oracle,oracle,deposits,0.936118315
@@ -351,11 +503,16 @@ base,target,method,role,item,factor
 2013,2016,c_asset_class,primary,business,1.160998492
 2013,2016,c_asset_class,primary,other_nonfinancial,1.011329594
 2013,2016,c_asset_class,primary,debt,1.00037194
-2013,2016,d_dfa_groups,primary,Bottom50,1.640977652
-2013,2016,d_dfa_groups,primary,Next40,1.078831809
-2013,2016,d_dfa_groups,primary,Next9,1.130148438
-2013,2016,d_dfa_groups,primary,RemainingTop1,1.174065307
-2013,2016,d_dfa_groups,primary,TopPt1,1.183793716
+2013,2016,d_dfa_groups,primary,Bottom50 assets,0.9943499949
+2013,2016,d_dfa_groups,primary,Next40 assets,1.078737024
+2013,2016,d_dfa_groups,primary,Next9 assets,1.11508467
+2013,2016,d_dfa_groups,primary,RemainingTop1 assets,1.180723659
+2013,2016,d_dfa_groups,primary,TopPt1 assets,1.182638292
+2013,2016,d_dfa_groups,primary,Bottom50 debt,0.9008269896
+2013,2016,d_dfa_groups,primary,Next40 debt,1.078343628
+2013,2016,d_dfa_groups,primary,Next9 debt,0.9352548311
+2013,2016,d_dfa_groups,primary,RemainingTop1 debt,1.352596495
+2013,2016,d_dfa_groups,primary,TopPt1 debt,1.052551613
 2013,2016,b_uniform_aggregate,sensitivity,all,1.164496261
 2013,2016,b_uniform_q2,sensitivity,all,1.147834068
 2013,2016,b_uniform_q4,sensitivity,all,1.112254316
@@ -374,10 +531,24 @@ base,target,method,role,item,factor
 2013,2016,c_asset_class_q4,sensitivity,business,1.142149645
 2013,2016,c_asset_class_q4,sensitivity,other_nonfinancial,1.014069463
 2013,2016,c_asset_class_q4,sensitivity,debt,0.9969720224
-2013,2016,d_dfa_groups_top1,sensitivity,Bottom50,1.640977652
-2013,2016,d_dfa_groups_top1,sensitivity,Next40,1.078831809
-2013,2016,d_dfa_groups_top1,sensitivity,Next9,1.130148438
-2013,2016,d_dfa_groups_top1,sensitivity,Top1,1.17804081
+2013,2016,d_dfa_groups_top1,sensitivity,Bottom50 assets,0.9943499949
+2013,2016,d_dfa_groups_top1,sensitivity,Next40 assets,1.078737024
+2013,2016,d_dfa_groups_top1,sensitivity,Next9 assets,1.11508467
+2013,2016,d_dfa_groups_top1,sensitivity,Top1 assets,1.181492614
+2013,2016,d_dfa_groups_top1,sensitivity,Bottom50 debt,0.9008269896
+2013,2016,d_dfa_groups_top1,sensitivity,Next40 debt,1.078343628
+2013,2016,d_dfa_groups_top1,sensitivity,Next9 debt,0.9352548311
+2013,2016,d_dfa_groups_top1,sensitivity,Top1 debt,1.311567104
+2013,2016,d_dfa_groups_net_worth,sensitivity,Bottom50 assets,1.640977652
+2013,2016,d_dfa_groups_net_worth,sensitivity,Next40 assets,1.078831809
+2013,2016,d_dfa_groups_net_worth,sensitivity,Next9 assets,1.130148438
+2013,2016,d_dfa_groups_net_worth,sensitivity,RemainingTop1 assets,1.174065307
+2013,2016,d_dfa_groups_net_worth,sensitivity,TopPt1 assets,1.183793716
+2013,2016,d_dfa_groups_net_worth,sensitivity,Bottom50 debt,1.640977652
+2013,2016,d_dfa_groups_net_worth,sensitivity,Next40 debt,1.078831809
+2013,2016,d_dfa_groups_net_worth,sensitivity,Next9 debt,1.130148438
+2013,2016,d_dfa_groups_net_worth,sensitivity,RemainingTop1 debt,1.174065307
+2013,2016,d_dfa_groups_net_worth,sensitivity,TopPt1 debt,1.183793716
 2013,2016,o_uniform_oracle,oracle,all,1.264385977
 2013,2016,o_asset_class_oracle,oracle,equities,1.327990598
 2013,2016,o_asset_class_oracle,oracle,deposits,1.105685459
@@ -394,11 +565,16 @@ base,target,method,role,item,factor
 2016,2019,c_asset_class,primary,business,1.086548963
 2016,2019,c_asset_class,primary,other_nonfinancial,1.012096376
 2016,2019,c_asset_class,primary,debt,1.017295568
-2016,2019,d_dfa_groups,primary,Bottom50,1.424948518
-2016,2019,d_dfa_groups,primary,Next40,1.077647725
-2016,2019,d_dfa_groups,primary,Next9,1.110385341
-2016,2019,d_dfa_groups,primary,RemainingTop1,1.092540784
-2016,2019,d_dfa_groups,primary,TopPt1,1.054460547
+2016,2019,d_dfa_groups,primary,Bottom50 assets,1.118921638
+2016,2019,d_dfa_groups,primary,Next40 assets,1.060983341
+2016,2019,d_dfa_groups,primary,Next9 assets,1.107384343
+2016,2019,d_dfa_groups,primary,RemainingTop1 assets,1.081705378
+2016,2019,d_dfa_groups,primary,TopPt1 assets,1.056202646
+2016,2019,d_dfa_groups,primary,Bottom50 debt,1.038293797
+2016,2019,d_dfa_groups,primary,Next40 debt,0.9917874659
+2016,2019,d_dfa_groups,primary,Next9 debt,1.064093173
+2016,2019,d_dfa_groups,primary,RemainingTop1 debt,0.8389238078
+2016,2019,d_dfa_groups,primary,TopPt1 debt,1.276832255
 2016,2019,b_uniform_aggregate,sensitivity,all,1.11886876
 2016,2019,b_uniform_q2,sensitivity,all,1.111325778
 2016,2019,b_uniform_q4,sensitivity,all,1.115868456
@@ -418,14 +594,32 @@ base,target,method,role,item,factor
 2016,2019,c_asset_class_q4,sensitivity,business,1.088303895
 2016,2019,c_asset_class_q4,sensitivity,other_nonfinancial,1.015411751
 2016,2019,c_asset_class_q4,sensitivity,debt,1.020882189
-2016,2019,d_dfa_groups_top1,sensitivity,Bottom50,1.424948518
-2016,2019,d_dfa_groups_top1,sensitivity,Next40,1.077647725
-2016,2019,d_dfa_groups_top1,sensitivity,Next9,1.110385341
-2016,2019,d_dfa_groups_top1,sensitivity,Top1,1.076903344
-2016,2019,d_dfa_groups_real_time,sensitivity,Bottom50,1.249581751
-2016,2019,d_dfa_groups_real_time,sensitivity,Next40,1.102445729
-2016,2019,d_dfa_groups_real_time,sensitivity,Next9,1.069594544
-2016,2019,d_dfa_groups_real_time,sensitivity,Top1,1.137873103
+2016,2019,d_dfa_groups_top1,sensitivity,Bottom50 assets,1.118921638
+2016,2019,d_dfa_groups_top1,sensitivity,Next40 assets,1.060983341
+2016,2019,d_dfa_groups_top1,sensitivity,Next9 assets,1.107384343
+2016,2019,d_dfa_groups_top1,sensitivity,Top1 assets,1.071453044
+2016,2019,d_dfa_groups_top1,sensitivity,Bottom50 debt,1.038293797
+2016,2019,d_dfa_groups_top1,sensitivity,Next40 debt,0.9917874659
+2016,2019,d_dfa_groups_top1,sensitivity,Next9 debt,1.064093173
+2016,2019,d_dfa_groups_top1,sensitivity,Top1 debt,0.8869795239
+2016,2019,d_dfa_groups_real_time,sensitivity,Bottom50 assets,1.16773406
+2016,2019,d_dfa_groups_real_time,sensitivity,Next40 assets,1.062557807
+2016,2019,d_dfa_groups_real_time,sensitivity,Next9 assets,1.072177816
+2016,2019,d_dfa_groups_real_time,sensitivity,Top1 assets,1.131798855
+2016,2019,d_dfa_groups_real_time,sensitivity,Bottom50 debt,1.147261639
+2016,2019,d_dfa_groups_real_time,sensitivity,Next40 debt,0.8944368837
+2016,2019,d_dfa_groups_real_time,sensitivity,Next9 debt,1.107645257
+2016,2019,d_dfa_groups_real_time,sensitivity,Top1 debt,0.9152666582
+2016,2019,d_dfa_groups_net_worth,sensitivity,Bottom50 assets,1.424948518
+2016,2019,d_dfa_groups_net_worth,sensitivity,Next40 assets,1.077647725
+2016,2019,d_dfa_groups_net_worth,sensitivity,Next9 assets,1.110385341
+2016,2019,d_dfa_groups_net_worth,sensitivity,RemainingTop1 assets,1.092540784
+2016,2019,d_dfa_groups_net_worth,sensitivity,TopPt1 assets,1.054460547
+2016,2019,d_dfa_groups_net_worth,sensitivity,Bottom50 debt,1.424948518
+2016,2019,d_dfa_groups_net_worth,sensitivity,Next40 debt,1.077647725
+2016,2019,d_dfa_groups_net_worth,sensitivity,Next9 debt,1.110385341
+2016,2019,d_dfa_groups_net_worth,sensitivity,RemainingTop1 debt,1.092540784
+2016,2019,d_dfa_groups_net_worth,sensitivity,TopPt1 debt,1.054460547
 2016,2019,o_uniform_oracle,oracle,all,1.017977455
 2016,2019,o_asset_class_oracle,oracle,equities,1.033095132
 2016,2019,o_asset_class_oracle,oracle,deposits,1.036774011
@@ -442,11 +636,16 @@ base,target,method,role,item,factor
 2019,2022,c_asset_class,primary,business,1.150227042
 2019,2022,c_asset_class,primary,other_nonfinancial,1.138019121
 2019,2022,c_asset_class,primary,debt,1.016192148
-2019,2022,d_dfa_groups,primary,Bottom50,1.694128565
-2019,2022,d_dfa_groups,primary,Next40,1.194249851
-2019,2022,d_dfa_groups,primary,Next9,0.9832588505
-2019,2022,d_dfa_groups,primary,RemainingTop1,0.9653154105
-2019,2022,d_dfa_groups,primary,TopPt1,1.161308972
+2019,2022,d_dfa_groups,primary,Bottom50 assets,1.136327197
+2019,2022,d_dfa_groups,primary,Next40 assets,1.163409169
+2019,2022,d_dfa_groups,primary,Next9 assets,0.9900447906
+2019,2022,d_dfa_groups,primary,RemainingTop1 assets,0.9686945073
+2019,2022,d_dfa_groups,primary,TopPt1 assets,1.165733507
+2019,2022,d_dfa_groups,primary,Bottom50 debt,0.9346373929
+2019,2022,d_dfa_groups,primary,Next40 debt,1.024262408
+2019,2022,d_dfa_groups,primary,Next9 debt,1.092194644
+2019,2022,d_dfa_groups,primary,RemainingTop1 debt,1.067296637
+2019,2022,d_dfa_groups,primary,TopPt1 debt,1.628518116
 2019,2022,b_uniform_aggregate,sensitivity,all,1.095586536
 2019,2022,b_uniform_q2,sensitivity,all,1.10654905
 2019,2022,b_uniform_q4,sensitivity,all,1.053308421
@@ -466,15 +665,34 @@ base,target,method,role,item,factor
 2019,2022,c_asset_class_q4,sensitivity,business,1.116732303
 2019,2022,c_asset_class_q4,sensitivity,other_nonfinancial,1.138774504
 2019,2022,c_asset_class_q4,sensitivity,debt,1.01923377
-2019,2022,d_dfa_groups_top1,sensitivity,Bottom50,1.694128565
-2019,2022,d_dfa_groups_top1,sensitivity,Next40,1.194249851
-2019,2022,d_dfa_groups_top1,sensitivity,Next9,0.9832588505
-2019,2022,d_dfa_groups_top1,sensitivity,Top1,1.044121802
-2019,2022,d_dfa_groups_real_time,sensitivity,Bottom50,1.459480614
-2019,2022,d_dfa_groups_real_time,sensitivity,Next40,1.078084088
-2019,2022,d_dfa_groups_real_time,sensitivity,Next9,1.049808353
-2019,2022,d_dfa_groups_real_time,sensitivity,RemainingTop1,1.087499426
-2019,2022,d_dfa_groups_real_time,sensitivity,TopPt1,1.109517979
+2019,2022,d_dfa_groups_top1,sensitivity,Bottom50 assets,1.136327197
+2019,2022,d_dfa_groups_top1,sensitivity,Next40 assets,1.163409169
+2019,2022,d_dfa_groups_top1,sensitivity,Next9 assets,0.9900447906
+2019,2022,d_dfa_groups_top1,sensitivity,Top1 assets,1.046778563
+2019,2022,d_dfa_groups_top1,sensitivity,Bottom50 debt,0.9346373929
+2019,2022,d_dfa_groups_top1,sensitivity,Next40 debt,1.024262408
+2019,2022,d_dfa_groups_top1,sensitivity,Next9 debt,1.092194644
+2019,2022,d_dfa_groups_top1,sensitivity,Top1 debt,1.155954297
+2019,2022,d_dfa_groups_real_time,sensitivity,Bottom50 assets,1.155607599
+2019,2022,d_dfa_groups_real_time,sensitivity,Next40 assets,1.063075211
+2019,2022,d_dfa_groups_real_time,sensitivity,Next9 assets,1.051457787
+2019,2022,d_dfa_groups_real_time,sensitivity,RemainingTop1 assets,1.080150571
+2019,2022,d_dfa_groups_real_time,sensitivity,TopPt1 assets,1.108132695
+2019,2022,d_dfa_groups_real_time,sensitivity,Bottom50 debt,1.031845396
+2019,2022,d_dfa_groups_real_time,sensitivity,Next40 debt,0.9938128482
+2019,2022,d_dfa_groups_real_time,sensitivity,Next9 debt,1.074985531
+2019,2022,d_dfa_groups_real_time,sensitivity,RemainingTop1 debt,0.8677640557
+2019,2022,d_dfa_groups_real_time,sensitivity,TopPt1 debt,0.9669309303
+2019,2022,d_dfa_groups_net_worth,sensitivity,Bottom50 assets,1.694128565
+2019,2022,d_dfa_groups_net_worth,sensitivity,Next40 assets,1.194249851
+2019,2022,d_dfa_groups_net_worth,sensitivity,Next9 assets,0.9832588505
+2019,2022,d_dfa_groups_net_worth,sensitivity,RemainingTop1 assets,0.9653154105
+2019,2022,d_dfa_groups_net_worth,sensitivity,TopPt1 assets,1.161308972
+2019,2022,d_dfa_groups_net_worth,sensitivity,Bottom50 debt,1.694128565
+2019,2022,d_dfa_groups_net_worth,sensitivity,Next40 debt,1.194249851
+2019,2022,d_dfa_groups_net_worth,sensitivity,Next9 debt,0.9832588505
+2019,2022,d_dfa_groups_net_worth,sensitivity,RemainingTop1 debt,0.9653154105
+2019,2022,d_dfa_groups_net_worth,sensitivity,TopPt1 debt,1.161308972
 2019,2022,o_uniform_oracle,oracle,all,1.223810836
 2019,2022,o_asset_class_oracle,oracle,equities,1.252262834
 2019,2022,o_asset_class_oracle,oracle,deposits,1.204180618

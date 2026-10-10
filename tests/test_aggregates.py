@@ -65,7 +65,8 @@ def test_factors_chain_across_waves(base, middle, target):
 def test_a_wave_projected_onto_itself_is_unchanged(year):
     assert aggregates.net_worth_factor(year, year) == 1.0
     assert set(aggregates.class_factors(year, year).values()) == {1.0}
-    assert set(aggregates.dfa_group_factors(year, year).values()) == {1.0}
+    for measure in aggregates.DFA_MEASURES:
+        assert set(aggregates.dfa_group_factors(year, year, measure=measure).values()) == {1.0}
 
 
 @pytest.mark.parametrize("base", scf.WAVES[:-1])
@@ -115,17 +116,33 @@ def test_dfa_vintages_cover_their_wave_pairs():
     for year in scf.WAVES:
         assert aggregates.label(year) in current.index
     for target, vintage in aggregates.DFA_REAL_TIME_VINTAGE.items():
-        table = aggregates.dfa(vintage)
-        assert aggregates.label(target) in table.index
-        assert aggregates.label(target - 3) in table.index
-        factors = aggregates.dfa_group_factors(target - 3, target, vintage=vintage)
-        assert all(value > 0 for value in factors.values())
+        for measure in aggregates.DFA_MEASURES:
+            table = aggregates.dfa(vintage, measure)
+            assert aggregates.label(target) in table.index
+            assert aggregates.label(target - 3) in table.index
+            factors = aggregates.dfa_group_factors(
+                target - 3, target, vintage=vintage, measure=measure
+            )
+            assert all(value > 0 for value in factors.values())
     assert list(aggregates.dfa("alfred_20200630").columns) == sorted(project.DFA_GROUPS_4)
 
 
-def test_merged_top_group_is_the_sum_of_its_parts():
-    table = aggregates.dfa("current")
-    factors = aggregates.dfa_group_factors(2016, 2019, groups=tuple(project.DFA_GROUPS_4))
+@pytest.mark.parametrize("vintage", sorted(aggregates.DFA_FILES))
+def test_dfa_assets_less_liabilities_is_net_worth(vintage):
+    assets = aggregates.dfa(vintage, "assets")
+    liabilities = aggregates.dfa(vintage, "liabilities")
+    net_worth = aggregates.dfa(vintage, "net_worth")
+    # Published in millions, so each term can round by half a million.
+    assert (assets - liabilities - net_worth).abs().max().max() <= 2
+    assert (assets > 0).all().all() and (liabilities > 0).all().all()
+
+
+@pytest.mark.parametrize("measure", sorted(aggregates.DFA_MEASURES))
+def test_merged_top_group_is_the_sum_of_its_parts(measure):
+    table = aggregates.dfa("current", measure)
+    factors = aggregates.dfa_group_factors(
+        2016, 2019, measure=measure, groups=tuple(project.DFA_GROUPS_4)
+    )
     top = table["TopPt1"] + table["RemainingTop1"]
     nominal = top["2019-Q3"] / top["2016-Q3"]
     assert factors["Top1"] == pytest.approx(aggregates.real_per_household(nominal, 2016, 2019))

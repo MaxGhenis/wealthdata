@@ -17,7 +17,9 @@ from hypothesis import strategies as st
 from conftest import class_factor_maps, factors, sheets
 from wealthdata import project, stats
 
-group_factor_maps = st.fixed_dictionaries({name: factors for name in project.DFA_GROUPS_5})
+group_factor_maps = st.fixed_dictionaries(
+    {name: class_factor_maps for name in project.DFA_GROUPS_5}
+)
 
 PROJECTIONS = st.one_of(
     st.just(project.no_change),
@@ -120,7 +122,7 @@ def test_no_change_and_unit_factors_are_the_identity(sheet):
     pd.testing.assert_frame_equal(project.scale_uniform(sheet, 1.0), sheet, check_exact=True)
     ones = dict.fromkeys(project.CLASSES, 1.0)
     pd.testing.assert_frame_equal(project.scale_classes(sheet, ones), sheet, check_exact=True)
-    unit_groups = dict.fromkeys(project.DFA_GROUPS_5, 1.0)
+    unit_groups = dict.fromkeys(project.DFA_GROUPS_5, ones)
     pd.testing.assert_frame_equal(
         project.scale_wealth_groups(sheet, unit_groups, project.DFA_GROUPS_5),
         sheet,
@@ -131,12 +133,23 @@ def test_no_change_and_unit_factors_are_the_identity(sheet):
 @given(sheets(), factors)
 def test_equal_factors_reduce_to_uniform_scaling(sheet, factor):
     uniform = project.scale_uniform(sheet, factor)
-    by_class = project.scale_classes(sheet, dict.fromkeys(project.CLASSES, factor))
+    equal = dict.fromkeys(project.CLASSES, factor)
+    by_class = project.scale_classes(sheet, equal)
     by_group = project.scale_wealth_groups(
-        sheet, dict.fromkeys(project.DFA_GROUPS_4, factor), project.DFA_GROUPS_4
+        sheet, dict.fromkeys(project.DFA_GROUPS_4, equal), project.DFA_GROUPS_4
     )
     pd.testing.assert_frame_equal(by_class, uniform, check_exact=True)
     pd.testing.assert_frame_equal(by_group, uniform, check_exact=True)
+    assert project.assets_and_debt(factor, factor) == equal
+
+
+@given(sheets(), class_factor_maps)
+def test_identical_group_factors_reduce_to_class_scaling(sheet, class_factors):
+    by_class = project.scale_classes(sheet, class_factors)
+    by_group = project.scale_wealth_groups(
+        sheet, dict.fromkeys(project.DFA_GROUPS_5, class_factors), project.DFA_GROUPS_5
+    )
+    pd.testing.assert_frame_equal(by_group, by_class, check_exact=True)
 
 
 @given(sheets(), factors, factors)
@@ -171,11 +184,15 @@ def test_wealth_groups_partition_households_in_rank_order(sheet, group_factors):
     projected = project.scale_wealth_groups(sheet, group_factors, bounds)
     for name in names:
         member = groups == name
-        np.testing.assert_allclose(
-            projected.loc[member, list(project.CLASSES)],
-            sheet.loc[member, list(project.CLASSES)] * group_factors[name],
-            rtol=1e-12,
-        )
+        for item in project.CLASSES:
+            factor = group_factors[name][item]
+            np.testing.assert_array_equal(
+                projected.loc[member, item], sheet.loc[member, item] * factor
+            )
+            # The group's weighted total of the class grows by exactly its factor.
+            before = float(np.sum(sheet.loc[member, item] * sheet.loc[member, "wgt"]))
+            after = float(np.sum(projected.loc[member, item] * sheet.loc[member, "wgt"]))
+            assert after == pytest.approx(factor * before, rel=1e-12, abs=1e-6)
 
 
 def test_wealth_group_boundaries_on_a_known_sample():
@@ -210,5 +227,10 @@ def test_invalid_factors_are_rejected():
             project.scale_uniform(sheet, bad)
     with pytest.raises(ValueError):
         project.scale_classes(sheet, {"equities": 1.0})
+    ones = dict.fromkeys(project.CLASSES, 1.0)
     with pytest.raises(ValueError):
-        project.scale_wealth_groups(sheet, {"Bottom50": 1.0}, project.DFA_GROUPS_5)
+        project.scale_wealth_groups(sheet, {"Bottom50": ones}, project.DFA_GROUPS_5)
+    with pytest.raises(ValueError):
+        project.scale_wealth_groups(
+            sheet, dict.fromkeys(project.DFA_GROUPS_4, {"debt": 1.0}), project.DFA_GROUPS_4
+        )

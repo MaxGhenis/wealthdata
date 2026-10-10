@@ -36,8 +36,12 @@ URLs, retrieval times and hashes in `MANIFEST.json`:
 | The same series as of 30 June 2020, 2023, 2026 | ALFRED | vintage dates |
 | Households (`TTLHH`, CPS ASEC) | FRED | 4 Dec 2025 |
 | September CPI-U-RS by survey year | Fed bulletin macro | 9 Oct 2026 |
-| DFA net worth by wealth group | Fed DFA download | 18 Sep 2026 |
+| DFA net worth, assets and liabilities by wealth group | Fed DFA download | 18 Sep 2026 |
 | DFA, earlier vintages | Internet Archive (22 Sep 2023), ALFRED (30 Jun 2020) | as dated |
+
+Financial Accounts levels are the September 2026 vintage for every pair, so
+historical pairs use revised data that a forecaster at the time did not have.
+`b_uniform_real_time` shows the effect for the three most recent targets.
 
 ## Growth factors
 
@@ -88,9 +92,10 @@ counts, so "other financial" is negative for a few households.
 **(d) DFA wealth groups.** Households are ranked by net worth within each
 implicate and placed in the DFA's groups (bottom 50%, 50th to 90th, 90th to
 99th, 99th to 99.9th, top 0.1%) by the midpoint of the weight interval they
-occupy. Every amount is multiplied by the factor for its group's DFA net
-worth. A group is a fixed share of households, so its household count grows at
-the national rate.
+occupy. Every asset class is multiplied by the factor for the group's DFA
+total assets, and debt by the factor for the group's DFA total liabilities. A
+group is a fixed share of households, so its household count grows at the
+national rate.
 
 The DFA allocates Financial Accounts totals with SCF shares, interpolating
 between surveys and forecasting beyond the latest one (DFA overview page). The
@@ -110,6 +115,9 @@ Run and reported, but not contenders:
   (`FL152090005`).
 - `b_uniform_real_time`: (b) with the series as it stood on 30 June after the
   target wave, for targets 2019, 2022 and 2025.
+- `d_dfa_groups_net_worth`: (d) with one factor per group, from the group's
+  DFA net worth, applied to assets and debt alike. This was the first
+  specification of (d); see "What was known".
 - `d_dfa_groups_top1`: (d) with the top 1% as one group.
 - `d_dfa_groups_real_time`: (d) with the vintage that stood before the target
   SCF was published: ALFRED 30 June 2020 for 2016→2019 (four groups; the
@@ -202,7 +210,8 @@ Tested with Hypothesis in `tests/`:
   identical, and the input is not modified.
 - Net worth equals assets minus debt after every projection.
 - Unit factors, and no change, return the input exactly; equal factors across
-  classes or groups reduce to uniform scaling.
+  classes or groups reduce to uniform scaling; identical class factors in
+  every group reduce to class scaling.
 - Wealth groups partition households in rank order, and each group's weight
   share is within one household of its target.
 - Factors chain: the factor from *t* to *t+6* is the product of the two
@@ -227,6 +236,12 @@ published figures.
   under `results/` at this tag. The methods have no fitted parameters. The
   quarter, the deflator and the series for each class were fixed before any
   pair was scored and have not changed since.
+- One method was respecified on the development pairs. (d) first used a
+  single factor per group, from the group's DFA net worth. The bottom half's
+  net worth is a small difference between its assets and its debts, and that
+  factor ran from 0.24 (2007→2010) to 1.81 (2010→2013). (d) now scales assets
+  and debt by separate factors. The first version stays as
+  `d_dfa_groups_net_worth`.
 - Not known: anything from the 2025 microdata, or any 2025 projection.
 
 ## Deviations

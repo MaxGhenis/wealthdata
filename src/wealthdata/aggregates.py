@@ -44,7 +44,7 @@ CLASS_SERIES: dict[str, tuple[str, ...]] = {
 DFA_FILES = {
     "current": "dfa_networth_levels_current.csv",
     "wayback_20230922": "dfa_networth_levels_wayback_20230922.csv",
-    "alfred_20200630": "dfa_networth_alfred_20200630.csv",
+    "alfred_20200630": "dfa_alfred_20200630.csv",
 }
 
 #: The DFA vintage that stood before each target wave's SCF was published.
@@ -98,16 +98,20 @@ def household_net_worth(vintage: str | None = None) -> pd.Series:
     return pd.Series(table["value"].astype(float).to_numpy(), index=_quarter_label(table["date"]))
 
 
+#: DFA measures and the column each has in the Fed's download.
+DFA_MEASURES = {"net_worth": "Net worth", "assets": "Assets", "liabilities": "Liabilities"}
+
+
 @cache
-def dfa(vintage: str = "current") -> pd.DataFrame:
-    """DFA net worth (millions of dollars) by quarter and wealth group."""
+def dfa(vintage: str = "current", measure: str = "net_worth") -> pd.DataFrame:
+    """A DFA measure (millions of dollars) by quarter and wealth group."""
     table = pd.read_csv(_path(DFA_FILES[vintage]))
     if "Date" in table.columns:
         tidy = pd.DataFrame(
             {
                 "date": table["Date"].str.replace(":", "-"),
                 "category": table["Category"],
-                "net_worth": table["Net worth"].astype(float),
+                "value": table[DFA_MEASURES[measure]].astype(float),
             }
         )
     else:
@@ -115,10 +119,10 @@ def dfa(vintage: str = "current") -> pd.DataFrame:
             {
                 "date": _quarter_label(table["date"]),
                 "category": table["category"],
-                "net_worth": table["net_worth"].astype(float),
+                "value": table[measure].astype(float),
             }
         )
-    return tidy.pivot(index="date", columns="category", values="net_worth")
+    return tidy.pivot(index="date", columns="category", values="value")
 
 
 def label(year: int, quarter: int = DEFAULT_QUARTER) -> str:
@@ -190,21 +194,22 @@ def dfa_group_factors(
     base: int,
     target: int,
     *,
+    measure: str = "net_worth",
     vintage: str = "current",
     groups: tuple[str, ...] | None = None,
     quarter: int = DEFAULT_QUARTER,
 ) -> dict[str, float]:
-    """One factor per DFA wealth group from that group's net worth growth.
+    """One factor per DFA wealth group from the growth of one of its measures.
 
     A wealth group is a fixed share of households, so its household count
     grows at the national rate. ``groups`` may name ``Top1`` to merge the two
     top groups of a five-group vintage.
     """
-    table = dfa(vintage).copy()
+    table = dfa(vintage, measure).copy()
+    if groups is None:
+        groups = tuple(table.columns)
     if "Top1" not in table.columns:
         table["Top1"] = table["TopPt1"] + table["RemainingTop1"]
-    if groups is None:
-        groups = tuple(name for name in dfa(vintage).columns)
     return {
         name: real_per_household(_ratio(table[name], base, target, quarter), base, target)
         for name in groups

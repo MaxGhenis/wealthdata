@@ -72,14 +72,14 @@ DFA_URL = "https://www.federalreserve.gov/releases/z1/dataviz/download/dfa-netwo
 #: Internet Archive capture of the same file from before the 2022 SCF was
 #: published (18 October 2023).
 DFA_WAYBACK_URL = "http://web.archive.org/web/20230922214757id_/" + DFA_URL
-#: FRED carries the DFA net worth levels by wealth group; ALFRED keeps vintages.
-#: The 2020 vintage predates the split of the top 1% at the 99.9th percentile,
-#: so it has four groups.
+#: FRED carries the DFA levels by wealth group; ALFRED keeps vintages. The 2020
+#: vintage predates the split of the top 1% at the 99.9th percentile, so it
+#: has four groups. Series are (net worth, total assets, total liabilities).
 DFA_FRED_SERIES = {
-    "Top1": "WFRBLT01026",
-    "Next9": "WFRBLN09053",
-    "Next40": "WFRBLN40080",
-    "Bottom50": "WFRBLB50107",
+    "Top1": ("WFRBLT01026", "WFRBLT01000", "WFRBLT01019"),
+    "Next9": ("WFRBLN09053", "WFRBLN09027", "WFRBLN09046"),
+    "Next40": ("WFRBLN40080", "WFRBLN40054", "WFRBLN40073"),
+    "Bottom50": ("WFRBLB50107", "WFRBLB50081", "WFRBLB50100"),
 }
 #: ALFRED vintage from before the 2019 SCF was published (28 September 2020).
 DFA_ALFRED_VINTAGE = "2020-06-30"
@@ -237,17 +237,26 @@ def build(out_dir: Path = AGGREGATES_DIR) -> dict:
 
     rows = []
     for category, series in DFA_FRED_SERIES.items():
-        url = ALFRED_CSV.format(series=series, vintage=DFA_ALFRED_VINTAGE)
-        body, _ = fetch(url)
-        rows += [(date, category, value) for date, value in _fred_rows(body)]
-    name = "dfa_networth_alfred_20200630.csv"
-    data = _write_csv(out_dir / name, ["date", "category", "net_worth"], sorted(rows))
+        columns = []
+        for name in series:
+            body, _ = fetch(ALFRED_CSV.format(series=name, vintage=DFA_ALFRED_VINTAGE))
+            columns.append(dict(_fred_rows(body)))
+        net_worth, assets, liabilities = columns
+        if not (net_worth.keys() == assets.keys() == liabilities.keys()):
+            raise ValueError(f"DFA series for {category} cover different quarters")
+        rows += [
+            (date, category, net_worth[date], assets[date], liabilities[date]) for date in net_worth
+        ]
+    name = "dfa_alfred_20200630.csv"
+    data = _write_csv(
+        out_dir / name, ["date", "category", "net_worth", "assets", "liabilities"], sorted(rows)
+    )
     record(
         name,
         data,
         ALFRED_CSV.format(series="{series}", vintage=DFA_ALFRED_VINTAGE),
         None,
-        series=DFA_FRED_SERIES,
+        series={category: list(series) for category, series in DFA_FRED_SERIES.items()},
     )
 
     (out_dir / "MANIFEST.json").write_text(json.dumps(manifest, indent=2) + "\n")

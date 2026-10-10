@@ -117,17 +117,31 @@ def wealth_group(networth, weights, bounds: Mapping[str, float]) -> np.ndarray:
 
 
 def scale_wealth_groups(
-    sheet: pd.DataFrame, factors: Mapping[str, float], bounds: Mapping[str, float]
+    sheet: pd.DataFrame,
+    factors: Mapping[str, Mapping[str, float]],
+    bounds: Mapping[str, float],
 ) -> pd.DataFrame:
-    """Multiply every class of a household by its wealth group's factor.
+    """Multiply each class of a household by its wealth group's factor for it.
 
-    Groups are assigned within each implicate from that implicate's own net
-    worth ranking.
+    ``factors`` maps each group to one factor per class. Groups are assigned
+    within each implicate from that implicate's own net worth ranking.
     """
     if set(factors) != set(bounds):
         raise ValueError("factors and bounds must name the same groups")
-    row_factor = pd.Series(np.nan, index=sheet.index)
+    for name, by_class in factors.items():
+        if set(by_class) != set(CLASSES):
+            raise ValueError(f"group {name} needs one factor for each of {CLASSES}")
+    table = {
+        name: [float(by_class[item]) for item in CLASSES] for name, by_class in factors.items()
+    }
+    row_factors = np.full((len(sheet), len(CLASSES)), np.nan)
+    position = pd.Series(np.arange(len(sheet)), index=sheet.index)
     for _, implicate in sheet.groupby("implicate", sort=True):
         groups = wealth_group(implicate["networth"].to_numpy(), implicate["wgt"].to_numpy(), bounds)
-        row_factor.loc[implicate.index] = [float(factors[name]) for name in groups]
-    return _scaled(sheet, row_factor.to_numpy()[:, None] * np.ones((1, len(CLASSES))))
+        row_factors[position.loc[implicate.index].to_numpy()] = [table[name] for name in groups]
+    return _scaled(sheet, row_factors)
+
+
+def assets_and_debt(asset_factor: float, debt_factor: float) -> dict[str, float]:
+    """Class factors that scale every asset class alike and debt separately."""
+    return {**dict.fromkeys(ASSET_CLASSES, float(asset_factor)), "debt": float(debt_factor)}

@@ -73,7 +73,17 @@ def _classes(**options):
     return run
 
 
-def _dfa(vintage: str = "current", groups: dict[str, float] | None = None):
+def _dfa(
+    vintage: str = "current",
+    groups: dict[str, float] | None = None,
+    measures: tuple[str, str] = ("assets", "liabilities"),
+):
+    """Scale each wealth group's assets and debt by two DFA measures.
+
+    ``measures`` names the DFA measure whose growth scales assets and the one
+    that scales debt; ``("net_worth", "net_worth")`` gives one factor a group.
+    """
+
     def run(sheets: Sheets, base: int, target: int):
         chosen = vintage
         if vintage == "real_time":
@@ -84,8 +94,13 @@ def _dfa(vintage: str = "current", groups: dict[str, float] | None = None):
         if bounds is None:
             five = "TopPt1" in aggregates.dfa(chosen).columns
             bounds = project.DFA_GROUPS_5 if five else project.DFA_GROUPS_4
-        factors = aggregates.dfa_group_factors(base, target, vintage=chosen, groups=tuple(bounds))
-        return project.scale_wealth_groups(sheets[base], factors, bounds), factors
+        options = {"vintage": chosen, "groups": tuple(bounds)}
+        asset = aggregates.dfa_group_factors(base, target, measure=measures[0], **options)
+        debt = aggregates.dfa_group_factors(base, target, measure=measures[1], **options)
+        factors = {name: project.assets_and_debt(asset[name], debt[name]) for name in bounds}
+        reported = {f"{name} assets": asset[name] for name in bounds}
+        reported |= {f"{name} debt": debt[name] for name in bounds}
+        return project.scale_wealth_groups(sheets[base], factors, bounds), reported
 
     return run
 
@@ -126,7 +141,7 @@ METHODS: tuple[Method, ...] = (
     Method(
         "d_dfa_groups",
         "primary",
-        "each DFA wealth group scaled by its net worth growth (current vintage)",
+        "each DFA wealth group's assets and debt scaled by its DFA totals (current vintage)",
         _dfa(),
         weight_dependent=True,
     ),
@@ -164,6 +179,13 @@ METHODS: tuple[Method, ...] = (
         "sensitivity",
         "DFA scaling with the vintage published before the target SCF",
         _dfa(vintage="real_time"),
+        weight_dependent=True,
+    ),
+    Method(
+        "d_dfa_groups_net_worth",
+        "sensitivity",
+        "DFA scaling with one net worth factor per group (current vintage)",
+        _dfa(measures=("net_worth", "net_worth")),
         weight_dependent=True,
     ),
     Method(

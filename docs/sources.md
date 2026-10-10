@@ -98,6 +98,9 @@ The DFA download carried `Last-Modified: Fri, 18 Sep 2026`, three weeks before
 the 2025 SCF. The five wealth groups in that file sum to
 `BOGZ1FL192090005Q` within 0.04% in every quarter.
 
+In every vintage used, each group's assets less liabilities equal its net
+worth to within rounding (`tests/test_aggregates.py`).
+
 Earlier vintages: the Internet Archive capture of 22 September 2023 predates
 the 2022 SCF (published 18 October 2023). On ALFRED, the top 1% series
 `WFRBLT01026` is unchanged from the 30 June 2020 vintage through 30 September
