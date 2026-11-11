@@ -331,9 +331,18 @@ None of the methods, statistics, scores or decision rules changed after
 - The tests check the 2025 public extract against the Fed's published 2025
   mean and median, as they already did for 2022.
 - Scores are compared at the ten significant digits stored in
-  `results/summary.csv`. At that precision (a) and (b) tie on the 2022→2025
+  `results/summary.csv`, as the frozen code already did; the frozen text says
+  "unrounded". At that precision (a) and (b) tie on the 2022→2025
   distribution score; they tie exactly in principle, because uniform scaling
   leaves shares and the Gini coefficient unchanged.
+- "What was known when this was frozen" lists only the all-family mean and
+  median from the Fed's 9 October 2026 report on the 2025 survey. In Table 2
+  of that report the Fed also published the 2025 median for each age and race
+  group the subgroup score uses and the mean for each net-worth percentile
+  group. Anyone with the report could therefore have worked out
+  (a)'s 2022→2025 subgroup score to within the gap between the public and
+  internal files, and (b)'s with the net worth factor as well. Only the blind
+  level score uses statistics the Fed had not published.
 - Added to the report after the 2025 results were seen, and labelled as
   such: a summary whose qualitative claims are asserted against the results
   when the report renders, and a table comparing each class's growth in the

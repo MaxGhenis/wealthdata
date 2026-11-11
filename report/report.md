@@ -13,9 +13,11 @@ The design was written down and tagged (`prereg-v1`) before the 2025
 microdata were opened: methods, statistics, scores and the rules for
 calling a winner. The eleven pairs through 2019→2022 were in view while
 the methods were built, and one method was changed after looking at
-them, as the specification records. The Fed’s report had already given
-the 2025 mean and median, so a *blind level* score, over the 25th, 75th,
-90th and 99th percentiles, carries the cleanest test.
+them, as the specification records. Before the freeze, the Fed had
+published the 2025 mean and median, the median for each age and race
+group the subgroup score uses, and the mean for each net-worth
+percentile group. The *blind level* score covers the 25th, 75th, 90th
+and 99th percentiles, which the Fed had not published.
 
 ## Summary
 

@@ -29,7 +29,8 @@ The design in [PREREGISTRATION.md](PREREGISTRATION.md) was frozen and tagged
   equities grew 54% in real terms per household from 2022 to 2025; mean SCF
   equity holdings grew 20%.
 - No method caught the fall in the top 1% share, from 35.1% to 31.3%, and on
-  medians by age and race doing nothing beat every aging method.
+  medians by age and race, which the Fed had published before the freeze,
+  doing nothing beat every aging method.
 - Over all twelve pairs, asset-class scaling had the lowest mean level error
   of the methods that use nothing from the target wave, 10.7% against 13.8%
   for doing nothing, but beat doing nothing on only 7 of 12 pairs.

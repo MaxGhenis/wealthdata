@@ -2251,7 +2251,7 @@ vertical-align: -.125em;
 
 
 <p>Models that need current household wealth take the latest Survey of Consumer Finances (SCF) and grow it with aggregates from the Federal Reserve’s Financial Accounts. This report projects every SCF wave from 1989 to 2022 three years forward with four methods and scores each projection against the wave that followed. The last pair, 2022→2025, ends in the survey the Fed published on 9 October 2026.</p>
-<p>The design was written down and tagged (<code>prereg-v1</code>) before the 2025 microdata were opened: methods, statistics, scores and the rules for calling a winner. The eleven pairs through 2019→2022 were in view while the methods were built, and one method was changed after looking at them, as the specification records. The Fed’s report had already given the 2025 mean and median, so a <em>blind level</em> score, over the 25th, 75th, 90th and 99th percentiles, carries the cleanest test.</p>
+<p>The design was written down and tagged (<code>prereg-v1</code>) before the 2025 microdata were opened: methods, statistics, scores and the rules for calling a winner. The eleven pairs through 2019→2022 were in view while the methods were built, and one method was changed after looking at them, as the specification records. Before the freeze, the Fed had published the 2025 mean and median, the median for each age and race group the subgroup score uses, and the mean for each net-worth percentile group. The <em>blind level</em> score covers the 25th, 75th, 90th and 99th percentiles, which the Fed had not published.</p>
 <section id="summary" class="level2">
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
 <ul>
@@ -2279,7 +2279,7 @@ Figure 1: Each method’s error at seven points of the net worth distribution. 
 </div>
 </div>
 </div>
-<div id="b7a76839" class="cell" data-execution_count="3">
+<div id="8a07db93" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="3">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
@@ -2340,7 +2340,7 @@ Figure 1: Each method’s error at seven points of the net worth distribution. 
 <li>subgroup medians: (a) No change.</li>
 </ul>
 <p>On the development pairs the lowest mean level score among (a), (b) and (c) belonged to (c) Asset class. On 2022→2025 that ranking held: (c) beat both (a) and (b) on the level and blind level scores.</p>
-<div id="8a439011" class="cell" data-execution_count="4">
+<div id="c98d83e3" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="4">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
@@ -2447,7 +2447,7 @@ Figure 1: Each method’s error at seven points of the net worth distribution. 
 </div>
 </div>
 <p>Errors are projected minus actual: percent of the actual value for dollar statistics (percent of the actual median for the 10th percentile), percentage points for shares and the Gini coefficient. An asterisk marks an error larger than 1.96 standard errors of the difference between projection and survey.</p>
-<div id="67bf2e8c" class="cell" data-execution_count="5">
+<div id="f76a0a7d" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="5">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
@@ -2554,7 +2554,7 @@ Figure 1: Each method’s error at seven points of the net worth distribution. 
 </div>
 </div>
 <p>Mean holdings per family by class, both waves in 2025 dollars, against the Financial Accounts growth that asset-class scaling applied. This comparison was added after the 2025 results were seen.</p>
-<div id="f395f4cc" class="cell" data-execution_count="6">
+<div id="d6f62242" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="6">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
@@ -2631,7 +2631,7 @@ Figure 1: Each method’s error at seven points of the net worth distribution. 
 <section id="twelve-pairs" class="level2">
 <h2 class="anchored" data-anchor-id="twelve-pairs">Twelve pairs</h2>
 <p>The record for the three methods that use no SCF information from the target wave. The Distributional Financial Accounts are built from the SCF, interpolating between surveys and forecasting beyond the latest one, so for every pair through 2019→2022 the current DFA already contains the wave being predicted. Method (d) is judged in the next section instead.</p>
-<div id="75945c91" class="cell" data-execution_count="7">
+<div id="094e6e05" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="7">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
@@ -2698,7 +2698,7 @@ Figure 1: Each method’s error at seven points of the net worth distribution. 
 </div>
 <p>Scores are means over the 12 pairs; “pairs won” counts the pairs on which a method has the lowest score of the three.</p>
 <p>Level score by wave pair, with (d) for reference (in-sample through 2019→2022):</p>
-<div id="3edff9aa" class="cell" data-execution_count="8">
+<div id="69188aa8" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="8">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
@@ -2816,7 +2816,7 @@ Figure 2: Error in the projected median for each wave pair, percent of the actu
 <section id="the-dfa-as-it-stood-at-the-time" class="level2">
 <h2 class="anchored" data-anchor-id="the-dfa-as-it-stood-at-the-time">The DFA as it stood at the time</h2>
 <p>Three target waves have a DFA vintage published before the SCF it is scored against: 30 June 2020 (ALFRED) for 2019, 22 September 2023 (Internet Archive) for 2022, and 18 September 2026 for 2025. On those pairs (d) is a forecast like the others.</p>
-<div id="b548a855" class="cell" data-execution_count="10">
+<div id="142874e5" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="10">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
@@ -2974,7 +2974,7 @@ Figure 2: Error in the projected median for each wave pair, percent of the actu
 <section id="aging-against-doing-nothing" class="level2">
 <h2 class="anchored" data-anchor-id="aging-against-doing-nothing">Aging against doing nothing</h2>
 <p>Pairs on which each aging method’s level score is below that of holding real dollars fixed.</p>
-<div id="d8ba8924" class="cell" data-execution_count="11">
+<div id="d1009c4a" class="cell" data-execution_count="11">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="11">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
@@ -3013,7 +3013,7 @@ Figure 2: Error in the projected median for each wave pair, percent of the actu
 <section id="where-every-method-fails" class="level2">
 <h2 class="anchored" data-anchor-id="where-every-method-fails">Where every method fails</h2>
 <p>For each statistic and method: mean signed error, mean absolute error, and the number of wave pairs where the error is outside sampling noise.</p>
-<div id="4847abb6" class="cell" data-execution_count="12">
+<div id="b16f6558" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="12">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
@@ -3178,7 +3178,7 @@ Figure 2: Error in the projected median for each wave pair, percent of the actu
 </div>
 </div>
 <p>Errors outside noise, over all twenty statistics. With no true error, about one cell in twenty would be outside noise by chance.</p>
-<div id="ccbc986e" class="cell" data-execution_count="13">
+<div id="d4fa4c74" class="cell" data-execution_count="13">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="13">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
@@ -3238,7 +3238,7 @@ Figure 2: Error in the projected median for each wave pair, percent of the actu
 </div>
 </div>
 <p>Wave pairs and statistics on which all four methods are outside noise:</p>
-<div id="e66df4fa" class="cell" data-execution_count="14">
+<div id="c9952743" class="cell" data-execution_count="14">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="14">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
@@ -3295,7 +3295,7 @@ Figure 2: Error in the projected median for each wave pair, percent of the actu
 </section>
 <section id="variants-and-oracles" class="level2">
 <h2 class="anchored" data-anchor-id="variants-and-oracles">Variants and oracles</h2>
-<div id="db3504ed" class="cell" data-execution_count="15">
+<div id="6728f223" class="cell" data-execution_count="15">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="15">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
@@ -3472,7 +3472,7 @@ Figure 2: Error in the projected median for each wave pair, percent of the actu
 <section id="growth-factors" class="level2">
 <h2 class="anchored" data-anchor-id="growth-factors">Growth factors</h2>
 <p>Real growth per household applied to each wave pair.</p>
-<div id="786c3f1a" class="cell" data-execution_count="16">
+<div id="66baa21c" class="cell" data-execution_count="16">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="16">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
@@ -3780,7 +3780,7 @@ Figure 2: Error in the projected median for each wave pair, percent of the actu
 <section id="the-actual-waves" class="level2">
 <h2 class="anchored" data-anchor-id="the-actual-waves">The actual waves</h2>
 <p>Net worth in 2025 dollars, public summary extract, mean over the five implicates.</p>
-<div id="80c69270" class="cell" data-execution_count="17">
+<div id="6bf2929f" class="cell" data-execution_count="17">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="17">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
@@ -4016,7 +4016,7 @@ Figure 2: Error in the projected median for each wave pair, percent of the actu
 </div>
 </div>
 <p>Against the Fed’s report on the 2025 survey (Table 2, 2025 dollars):</p>
-<div id="53968cec" class="cell" data-execution_count="18">
+<div id="6a6c328b" class="cell" data-execution_count="18">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="18">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
