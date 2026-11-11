@@ -1,0 +1,24 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.13"
+      - run: uv sync --locked
+      - run: uv run ruff check .
+      - run: uv run ruff format --check .
+      - name: Cache SCF downloads
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/wealthdata
+          key: scf-${{ hashFiles('data/scf_extracts.json', 'data/scf_replicate_weights.json') }}
+      - run: uv run pytest -q
